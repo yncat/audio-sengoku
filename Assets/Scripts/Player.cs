@@ -53,7 +53,7 @@ public class PlayerInput : MonoBehaviour
         .Subscribe(_ => {
             var obj = Instantiate(Resources.Load(this.selectedSoldierType.ToString())
             ,transform.position, Quaternion.identity, transform.parent) as GameObject;
-            obj.GetComponent<Soldier>().SetIsLeftSide(IsLeftSide());
+            obj.GetComponent<Soldier>().Init(IsLeftSide(), this.transform);
         });
         // update
         this.ObserveEveryValueChanged(x => x.currentLineIdx).Subscribe(_ => {

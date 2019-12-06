@@ -5,6 +5,7 @@ public class Soldier : MonoBehaviour
 {
     [SerializeField] private SoldierType type;
     [SerializeField] private float speed;
+    private Transform parent;
     void Start()
     {
     }
@@ -18,28 +19,40 @@ public class Soldier : MonoBehaviour
         {
             if (IsGoLeft() == other.GetComponent<Soldier>().IsGoLeft()) return;
             // --
-            if (!IsSuccess(other.name))
+            var result = Judge(other.name);
+            if (result != BattleResult.Win)
             {
                 Destroy(this.gameObject);
             }
+            GenerateMessenger(result);
         }
     }
-    public void SetIsLeftSide(bool isGoRight)
+    private void GenerateMessenger(BattleResult result)
+    {
+        var pos = transform.position;
+        var rot = transform.rotation;
+        var parent = transform.parent;
+        var messanger = Instantiate(Resources.Load("Messenger"), pos, rot, parent) as GameObject;
+        messanger.GetComponent<Messenger>().Run(result, this.parent);
+    }
+    public void Init(bool isGoRight, Transform parent)
     {
         this.speed *= isGoRight ? -1f : 1f;
+        this.parent = parent;
     }
     public bool IsGoLeft()
     {
         return this.speed < 0f;
     }
-    private bool IsSuccess(string name)
+    private BattleResult Judge(string name)
     {
+        if (this.type.ToString() == name) return BattleResult.Tie;
         if (this.type == SoldierType.Armor)
-            if (name.Contains("Canon")) return true;
+            if (name.Contains("Canon")) return BattleResult.Win;
         if (this.type == SoldierType.Canon)
-            if (name.Contains("Horse")) return true;
+            if (name.Contains("Horse")) return BattleResult.Win;
         if (this.type == SoldierType.Horse)
-            if (name.Contains("Armor")) return true;
-        return false;
+            if (name.Contains("Armor")) return BattleResult.Win;
+        return BattleResult.Lose;
     }
 }
