@@ -47,7 +47,7 @@ public class Soldier : MonoBehaviour
     }
     private BattleResult Judge(string name)
     {
-        if (this.type.ToString() == name) return BattleResult.Tie;
+        if (name.Contains(this.type.ToString())) return BattleResult.Tie;
         if (this.type == SoldierType.Armor)
             if (name.Contains("Canon")) return BattleResult.Win;
         if (this.type == SoldierType.Canon)
