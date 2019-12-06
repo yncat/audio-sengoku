@@ -32,7 +32,7 @@ public class Soldier : MonoBehaviour
         var pos = transform.position;
         var rot = transform.rotation;
         var parent = transform.parent;
-        var messanger = Instantiate(Resources.Load("Messenger"), pos, rot, parent) as GameObject;
+        var messanger = Instantiate(Resources.Load("Prefabs/Messenger"), pos, rot, parent) as GameObject;
         messanger.GetComponent<Messenger>().Run(result, this.parent);
         messanger.transform.SetSiblingIndex(0); // 目隠しの下に来るように
     }
