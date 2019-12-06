@@ -29,12 +29,22 @@ public class Messenger : MonoBehaviour
                 // todo: あとで適当な文章に入れ替える
                 this.textField.text = result.ToString();
                 GetComponent<UnityEngine.UI.Image>().enabled = false;
+                SoundManager.Instance.PlaySe(GetVoiceName(result));
                 // --
                 Observable.Timer(TimeSpan.FromSeconds(1.5f)).Subscribe(time =>
                 {
                     Destroy(gameObject);
-                })
-                .AddTo(this);
-            });
+                });
+            }).AddTo(this);
+    }
+    private string GetVoiceName(BattleResult result)
+    {
+        switch(result)
+        {
+            case BattleResult.Win :  return "decision9";
+            case BattleResult.Tie :  return "decision10";
+            case BattleResult.Lose : return "decision11";
+        }
+        return "";
     }
 }

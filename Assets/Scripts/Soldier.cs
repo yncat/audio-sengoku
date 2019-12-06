@@ -20,8 +20,14 @@ public class Soldier : MonoBehaviour
             if (IsGoLeft() == other.GetComponent<Soldier>().IsGoLeft()) return;
             // --
             var result = Judge(other.name);
-            if (result != BattleResult.Win)
+            if (result == BattleResult.Win)
             {
+                // 勝った
+                SoundManager.Instance.PlaySe("decision12");
+            }
+            else
+            {
+                // 負けた or 引き分け
                 Destroy(this.gameObject);
             }
             GenerateMessenger(result);
