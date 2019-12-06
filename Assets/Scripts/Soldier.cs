@@ -34,6 +34,7 @@ public class Soldier : MonoBehaviour
         var parent = transform.parent;
         var messanger = Instantiate(Resources.Load("Messenger"), pos, rot, parent) as GameObject;
         messanger.GetComponent<Messenger>().Run(result, this.parent);
+        messanger.transform.SetSiblingIndex(0); // 目隠しの下に来るように
     }
     public void Init(bool isGoRight, Transform parent)
     {

@@ -289,6 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ed151c0438e4ff4a77f28ef91c1aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  switchKey: 32
 --- !u!1 &1332688690
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveKeyLeft: 100
-  moveKeyRight: 115
+  moveKeyRight: 102
   selectKeyCanon: 120
   selectKeyArmor: 99
   selectKeyHorse: 118

@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx;
 public class PlayerInput : MonoBehaviour
 {
-    private const float MOVE_INTERVAL = 300f;
+    private const float MOVE_INTERVAL = 200f;
     private int currentLineIdx;
     private SoldierType selectedSoldierType = SoldierType.NotSet;
     [SerializeField] KeyCode moveKeyLeft;
@@ -51,9 +51,10 @@ public class PlayerInput : MonoBehaviour
         .Where(_ => Input.GetKeyDown(okKey))
         .Where(_ => this.selectedSoldierType != SoldierType.NotSet)
         .Subscribe(_ => {
-            var obj = Instantiate(Resources.Load(this.selectedSoldierType.ToString())
+            var soldier = Instantiate(Resources.Load(this.selectedSoldierType.ToString())
             ,transform.position, Quaternion.identity, transform.parent) as GameObject;
-            obj.GetComponent<Soldier>().Init(IsLeftSide(), this.transform);
+            soldier.GetComponent<Soldier>().Init(IsLeftSide(), this.transform);
+            soldier.transform.SetSiblingIndex(0); // 目隠しの下に来るように
         });
         // update
         this.ObserveEveryValueChanged(x => x.currentLineIdx).Subscribe(_ => {
