@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+namespace MultiLines_0
+{
 public class BlindSwitcher : MonoBehaviour
 {
     [Header("> 目隠しを切り替えるキーを指定")]
@@ -16,4 +18,5 @@ public class BlindSwitcher : MonoBehaviour
         });
     }
     void Update(){}
+}
 }

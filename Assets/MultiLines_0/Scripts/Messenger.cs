@@ -4,6 +4,8 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System;
+namespace MultiLines_0
+{
 public class Messenger : MonoBehaviour
 {
     [SerializeField] private TMPro.TextMeshProUGUI textField;
@@ -47,4 +49,5 @@ public class Messenger : MonoBehaviour
         }
         return "";
     }
+}
 }
