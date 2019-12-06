@@ -20,8 +20,14 @@ public class Soldier : MonoBehaviour
             if (IsGoLeft() == other.GetComponent<Soldier>().IsGoLeft()) return;
             // --
             var result = Judge(other.name);
-            if (result != BattleResult.Win)
+            if (result == BattleResult.Win)
             {
+                // 勝った
+                SoundManager.Instance.PlaySe("decision12");
+            }
+            else
+            {
+                // 負けた or 引き分け
                 Destroy(this.gameObject);
             }
             GenerateMessenger(result);
@@ -32,7 +38,7 @@ public class Soldier : MonoBehaviour
         var pos = transform.position;
         var rot = transform.rotation;
         var parent = transform.parent;
-        var messanger = Instantiate(Resources.Load("Messenger"), pos, rot, parent) as GameObject;
+        var messanger = Instantiate(Resources.Load("Prefabs/Messenger"), pos, rot, parent) as GameObject;
         messanger.GetComponent<Messenger>().Run(result, this.parent);
         messanger.transform.SetSiblingIndex(0); // 目隠しの下に来るように
     }

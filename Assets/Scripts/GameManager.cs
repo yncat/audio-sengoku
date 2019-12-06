@@ -21,10 +21,12 @@ public class GameManager : MonoBehaviour
         if (this.halfCanvasWidth < longestPosX)
         {
             StartCoroutine("GameOverProcess", "WIN : A");
+            SoundManager.Instance.PlaySe("decision7");
         } else
         if (longestPosX < this.halfCanvasWidth * -1f)
         {
             StartCoroutine("GameOverProcess", "WIN : B");
+            SoundManager.Instance.PlaySe("decision8");
         }
     }
     IEnumerator GameOverProcess(string text)

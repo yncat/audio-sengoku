@@ -23,38 +23,44 @@ public class PlayerInput : MonoBehaviour
         .Where(_ => 0 < this.currentLineIdx)
         .Subscribe(_ => {
             this.currentLineIdx --;
+            SoundManager.Instance.PlaySe("decision1");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(moveKeyRight))
         .Where(_ => this.currentLineIdx < LINE_LENGTH - 1)
         .Subscribe(_ => {
             this.currentLineIdx ++;
+            SoundManager.Instance.PlaySe("decision2");
         });
         // --
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyCanon))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Canon;
+            SoundManager.Instance.PlaySe("decision3");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyArmor))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Armor;
+            SoundManager.Instance.PlaySe("decision4");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyHorse))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Horse;
+            SoundManager.Instance.PlaySe("decision5");
         });
         // 決定
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(okKey))
         .Where(_ => this.selectedSoldierType != SoldierType.NotSet)
         .Subscribe(_ => {
-            var soldier = Instantiate(Resources.Load(this.selectedSoldierType.ToString())
+            var soldier = Instantiate(Resources.Load("Prefabs/" + this.selectedSoldierType.ToString())
             ,transform.position, Quaternion.identity, transform.parent) as GameObject;
             soldier.GetComponent<Soldier>().Init(IsLeftSide(), this.transform);
             soldier.transform.SetSiblingIndex(0); // 目隠しの下に来るように
+            SoundManager.Instance.PlaySe("decision6");
         });
         // update
         this.ObserveEveryValueChanged(x => x.currentLineIdx).Subscribe(_ => {
