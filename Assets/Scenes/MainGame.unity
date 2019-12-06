@@ -214,8 +214,9 @@ GameObject:
   - component: {fileID: 1209067348}
   - component: {fileID: 1209067350}
   - component: {fileID: 1209067349}
+  - component: {fileID: 1209067351}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Blind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -276,6 +277,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209067347}
   m_CullTransparentMesh: 0
+--- !u!114 &1209067351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209067347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ed151c0438e4ff4a77f28ef91c1aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1332688690
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,8 +300,8 @@ GameObject:
   - component: {fileID: 1332688691}
   - component: {fileID: 1332688693}
   - component: {fileID: 1332688692}
-  - component: {fileID: 1332688694}
   - component: {fileID: 1332688695}
+  - component: {fileID: 1332688694}
   m_Layer: 5
   m_Name: PlayerA
   m_TagString: Player
@@ -360,15 +373,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1332688690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20e75249e64924afca596ab3e9796dbf, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fb7cb149f2a7464d8fe6610e215250f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveKeyLeft: 122
-  moveKeyRight: 120
-  selectKeyCanon: 97
-  selectKeyArmor: 115
-  selectKeyHorse: 100
-  okKey: 113
+  moveKeyLeft: 100
+  moveKeyRight: 115
+  selectKeyCanon: 120
+  selectKeyArmor: 99
+  selectKeyHorse: 118
+  okKey: 114
 --- !u!58 &1332688695
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -617,8 +630,8 @@ GameObject:
   - component: {fileID: 2018225228}
   - component: {fileID: 2018225230}
   - component: {fileID: 2018225229}
-  - component: {fileID: 2018225231}
   - component: {fileID: 2018225232}
+  - component: {fileID: 2018225231}
   m_Layer: 5
   m_Name: PlayerB
   m_TagString: Player
@@ -690,15 +703,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2018225227}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20e75249e64924afca596ab3e9796dbf, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fb7cb149f2a7464d8fe6610e215250f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveKeyLeft: 110
-  moveKeyRight: 109
-  selectKeyCanon: 104
-  selectKeyArmor: 106
-  selectKeyHorse: 107
-  okKey: 121
+  moveKeyLeft: 106
+  moveKeyRight: 107
+  selectKeyCanon: 98
+  selectKeyArmor: 110
+  selectKeyHorse: 109
+  okKey: 117
 --- !u!58 &2018225232
 CircleCollider2D:
   m_ObjectHideFlags: 0
