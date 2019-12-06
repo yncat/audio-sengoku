@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+namespace MultiLines_0
+{
 public class Soldier : MonoBehaviour
 {
     [SerializeField] private SoldierType type;
@@ -62,4 +64,5 @@ public class Soldier : MonoBehaviour
             if (name.Contains("Armor")) return BattleResult.Win;
         return BattleResult.Lose;
     }
+}
 }

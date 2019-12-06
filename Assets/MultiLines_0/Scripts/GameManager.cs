@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+namespace MultiLines_0
+{
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMPro.TextMeshProUGUI gameOverText;
@@ -57,4 +59,5 @@ public class GameManager : MonoBehaviour
         }
         return candidate;
     }
+}
 }

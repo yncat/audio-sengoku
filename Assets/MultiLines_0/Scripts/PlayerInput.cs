@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+namespace MultiLines_0
+{
 public class PlayerInput : MonoBehaviour
 {
     private const float MOVE_INTERVAL = 200f;
@@ -77,4 +79,5 @@ public class PlayerInput : MonoBehaviour
     {
         return GetComponent<RectTransform>().anchoredPosition.x < 0f;
     }
+}
 }
