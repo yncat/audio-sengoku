@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/MultiLines_0/Scenes/MainGame.unity
+    path: Assets/Common/Scenes/GameSelection.unity
+    guid: edbe6968486e84350b976f3dbdda29da
+  - enabled: 1
+    path: Assets/MultiLines_0/Scenes/MultiLines_0.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/ShingleLine_Misawa/Scenes/ShingleLine_Misawa.unity
+    guid: 0b83a990ce3ffdf40bda289ed9f7b2f2
   m_configObjects: {}
