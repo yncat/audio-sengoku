@@ -39,19 +39,19 @@ public class PlayerInput : MonoBehaviour
         .Where(_ => Input.GetKeyDown(selectKeyCanon))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Canon;
-            SoundManager.Instance.PlaySe("decision3");
+            SoundManager.Instance.PlaySe("yumi_select");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyArmor))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Armor;
-            SoundManager.Instance.PlaySe("decision4");
+            SoundManager.Instance.PlaySe("ashigaru_select");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyHorse))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Horse;
-            SoundManager.Instance.PlaySe("decision5");
+            SoundManager.Instance.PlaySe("kiba_select");
         });
         // 決定
         Observable.EveryUpdate()
