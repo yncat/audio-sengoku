@@ -15,9 +15,9 @@ namespace SARTS
     {
         public enum PieceType
         {
-            Pawn=0,
-            Knight,
-            Tank,
+            Pawn = 0, // チョキ
+            Knight, // パー
+            Tank,   // グー
         }
         public enum MoveState
         {
@@ -30,27 +30,33 @@ namespace SARTS
             Pl1 = 0,
             Pl2,
         }
-        readonly float HEIGHT_GAIN = 0.001f;
+        internal readonly float HEIGHT_GAIN = 0.001f;
         public PieceType pieceType;
         public MoveState moveState;
         public PlSide plSide;
-        [SerializeField] AnimationCurve m_volumeAc = null;
-        [SerializeField] AnimationCurve m_panAc = null;
-        [SerializeField] GameObject m_messangerPrefab = null;
-        [SerializeField, Range(0f, 100000f)] float m_power=1000f;
-        [SerializeField] Transform m_meshTr = null;
+        public float moveSpd;
+        [SerializeField] internal AnimationCurve m_volumeAc = null;
+        [SerializeField] internal AnimationCurve m_panAc = null;
+        [SerializeField] internal GameObject m_messangerPrefab = null;
+        [SerializeField, Range(0f, 100000f)] internal float m_power =1000f;
+        [SerializeField] internal Transform m_meshTr = null;
         public Transform meshTr { get { return m_meshTr; } }
-        [SerializeField] TMPro.TMP_Text m_text = null;
-        [SerializeField, Range(0.01f,1f)] float m_moveSpdGain = 0.1f;
-        [SerializeField, Range(0.1f, 10f)] float m_BattleSpdGain = 1f;
-        [SerializeField] AudioClip m_winAc = null;
-        [SerializeField] AudioClip[] m_footAcArr = null;
-        [SerializeField] AudioClip[] m_hitAcArr = null;
-        [SerializeField] AudioMixerGroup[] m_audioMixerGroupArr=null;
-        AudioSource m_footAudioSource;
-        AudioSource m_hitAudioSource;
-        float m_moveSpd;
-        AudioSource m_ac;
+        [SerializeField] internal TMPro.TMP_Text m_text = null;
+        [SerializeField, Range(0.01f,1f)] internal float m_moveSpdGain = 0.1f;
+        [SerializeField, Range(0.1f, 10f)] internal float m_BattleSpdGain = 1f;
+        [SerializeField] internal AudioClip m_winAc = null;
+
+        [SerializeField, Range(0f, 1f)] internal float m_PKTvsPKT = 0.5f;
+        [SerializeField, Range(0f, 1f)] internal float m_PvsK = 0.35f;
+        [SerializeField, Range(0f, 1f)] internal float m_PvsT = 0.25f;
+        [SerializeField, Range(0f, 1f)] internal float m_KvsT = 0.4f;
+
+        [SerializeField] internal AudioClip[] m_footAcArr = null;
+        [SerializeField] internal AudioClip[] m_hitAcArr = null;
+        [SerializeField] internal AudioMixerGroup[] m_audioMixerGroupArr=null;
+        internal AudioSource m_footAudioSource;
+        internal AudioSource m_hitAudioSource;
+        internal AudioSource m_ac;
 
 
         private void Awake()
@@ -59,7 +65,7 @@ namespace SARTS
         }
 
         // Start is called before the first frame update
-        void Start()
+        public virtual void Start()
         {
             m_ac = GetComponent<AudioSource>();
             m_ac.volume = 0f;
@@ -72,15 +78,9 @@ namespace SARTS
                 case PieceType.Tank: col = Color.green; break;
                 default: col = Color.white; break;
             }
-            switch (pieceType)
-            {
-                case PieceType.Knight: m_moveSpd = 3f; break;
-                case PieceType.Tank: m_moveSpd = 1f; break;
-                default: m_moveSpd = 2f; break;
-            }
             if(plSide== PlSide.Pl2)
             {
-                m_moveSpd *= -1f;
+                moveSpd *= -1f;
             }
 
             m_footAudioSource = gameObject.AddComponent<AudioSource>();
@@ -121,8 +121,8 @@ namespace SARTS
             if(moveState== MoveState.Move)
             {
                 Rigidbody rb = GetComponent<Rigidbody>();
-                rb.MovePosition(transform.position + Time.deltaTime * m_moveSpd * m_moveSpdGain * Vector3.right);
-                //transform.position += Time.deltaTime * m_moveSpd * m_moveSpdGain * Vector3.right;
+                rb.MovePosition(transform.position + Time.deltaTime * moveSpd * m_moveSpdGain * Vector3.right);
+                //transform.position += Time.deltaTime * moveSpd * m_moveSpdGain * Vector3.right;
 
             }
 #if UNITY_EDITOR
@@ -145,29 +145,29 @@ namespace SARTS
             Soldier enemyScr = collision.gameObject.GetComponent<Soldier>();
             if (enemyScr != null)
             {
-                float myRate = 0.5f;
+                float myRate = m_PKTvsPKT;
                 if((pieceType == PieceType.Pawn) && (enemyScr.pieceType == PieceType.Knight)){
-                    myRate = 0.35f;
+                    myRate = m_PvsK;
                 }
                 if ((pieceType == PieceType.Pawn) && (enemyScr.pieceType == PieceType.Tank))
                 {
-                    myRate = 0.2f;
+                    myRate = m_PvsT;
                 }
                 if ((pieceType == PieceType.Knight) && (enemyScr.pieceType == PieceType.Pawn))
                 {
-                    myRate = 0.65f;
+                    myRate = (1f-m_PvsK);
                 }
                 if ((pieceType == PieceType.Knight) && (enemyScr.pieceType == PieceType.Tank))
                 {
-                    myRate = 0.4f;
+                    myRate = m_KvsT;
                 }
                 if ((pieceType == PieceType.Tank) && (enemyScr.pieceType == PieceType.Pawn))
                 {
-                    myRate = 0.8f;
+                    myRate = (1f- m_PvsT);
                 }
                 if ((pieceType == PieceType.Tank) && (enemyScr.pieceType == PieceType.Knight))
                 {
-                    myRate = 0.6f;
+                    myRate = (1f- m_KvsT);
                 }
 
                 float ret;

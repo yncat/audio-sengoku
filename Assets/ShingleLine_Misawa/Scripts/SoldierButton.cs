@@ -12,6 +12,7 @@ namespace SARTS
         [SerializeField] GameObject m_soldierPrefab = null;
         [SerializeField] Soldier.PieceType m_pieceType = Soldier.PieceType.Pawn;
         [SerializeField,Range(0,100000)] int m_soldierNum = 1000;
+        [SerializeField, Range(0f, 1f)] float m_moveSpd = 1f;
         [SerializeField] Text m_buttonText = null;
         [SerializeField] Text m_remainText = null;
         [SerializeField] string m_layerName = "LayerPl1";
@@ -79,6 +80,7 @@ namespace SARTS
                 m_soldierScr = go.GetComponent<Soldier>();
                 m_soldierScr.plSide = Soldier.PlSide.Pl1;
                 m_soldierScr.meshTr.gameObject.layer = LayerMask.NameToLayer(m_layerName);
+                m_soldierScr.moveSpd = m_moveSpd;
 
                 Vector3 pos = new Vector3(0.05f, 0.5f, -Camera.main.transform.position.z);
                 int mm = go.layer;

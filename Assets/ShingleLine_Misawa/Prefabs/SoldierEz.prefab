@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 5751623629235595632}
   - component: {fileID: 2736766513365973953}
   m_Layer: 8
-  m_Name: Soldier
+  m_Name: SoldierEz
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,6 +320,9 @@ MonoBehaviour:
   m_moveSpdGain: 0.4
   m_BattleSpdGain: 1.3
   m_winAc: {fileID: 8300000, guid: 10795429145c281439955743d10dda4e, type: 3}
+  m_PvsK: 1
+  m_PvsT: 0
+  m_KvsT: 1
   m_footAcArr:
   - {fileID: 8300000, guid: a32d40ffe4b02b0488678440d8dff98e, type: 3}
   - {fileID: 8300000, guid: aa9c305f90d36b6439e29fded95ed7e8, type: 3}
