@@ -9,6 +9,7 @@ namespace SARTS
     public class SoldierButton : MonoBehaviour
     {
         readonly int SET_SPD = 10;
+        readonly float PUSH_OVER_TIME_MAX = 1f;
         [SerializeField] GameObject m_soldierPrefab = null;
         [SerializeField] Soldier.PieceType m_pieceType = Soldier.PieceType.Pawn;
         [SerializeField,Range(0,100000)] int m_soldierNum = 1000;
@@ -17,7 +18,10 @@ namespace SARTS
         [SerializeField] Text m_remainText = null;
         [SerializeField] string m_layerName = "LayerPl1";
         [SerializeField] KeyCode m_keyCode = KeyCode.Alpha0;
+        [SerializeField] AudioSource m_sysAudioSource = null;
+        [SerializeField] internal AudioClip[] m_sysAcArr = null; // 0:EMPTY,1:FULL,2:NG
         float pow;
+        float m_pushOverTime;
 
         Soldier m_soldierScr;
         private void Awake()
@@ -57,7 +61,22 @@ namespace SARTS
                         m_soldierNum = 0;
                     }
                     m_soldierScr.SetPower(pow);
-                    m_remainText.text = Mathf.FloorToInt(m_soldierNum).ToString();
+                    if (m_soldierNum==0)
+                    {
+                        m_sysAudioSource.PlayOneShot(m_sysAcArr[1], 1f);
+                        m_pushOverTime = PUSH_OVER_TIME_MAX;
+                    }
+                }
+                else
+                {
+                    m_pushOverTime -= Time.deltaTime;
+                    if (m_pushOverTime <= 0f)
+                    {
+                        m_sysAudioSource.PlayOneShot(m_sysAcArr[0], 1f);
+                        Destroy(m_soldierScr.gameObject);
+                        m_soldierNum = (int)(m_soldierScr.GetPower());
+                        m_soldierScr = null;
+                    }
                 }
             }
             if (Input.GetKeyDown(m_keyCode))
@@ -68,12 +87,19 @@ namespace SARTS
             {
                 PointerUp();
             }
+            m_remainText.text = Mathf.FloorToInt(m_soldierNum).ToString();
         }
 
         public void PointerDown()
         {
+            if (m_soldierNum <= 0)
+            {
+                m_sysAudioSource.PlayOneShot(m_sysAcArr[2], 1f);
+                return;
+            }
             if ((m_soldierNum>0)&&(m_soldierPrefab != null) &&(m_soldierScr == null))
             {
+                m_pushOverTime = 0f;
                 GameObject go = Instantiate(m_soldierPrefab);
                 go.layer = LayerMask.NameToLayer(m_layerName);
 
@@ -104,6 +130,7 @@ namespace SARTS
         {
             if (m_soldierScr != null)
             {
+                m_pushOverTime = 0f;
                 m_soldierScr.moveState = Soldier.MoveState.Move;
                 m_soldierScr = null;
             }

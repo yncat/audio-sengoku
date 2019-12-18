@@ -253,6 +253,10 @@ namespace SARTS
             m_power = Mathf.Max(m_power + _power,0f);
             return m_power;
         }
+        public float GetPower()
+        {
+            return m_power;
+        }
         private void setVolumeAndPan()
         {
             float pan = Mathf.Clamp01(Camera.main.WorldToViewportPoint(transform.position).x);
