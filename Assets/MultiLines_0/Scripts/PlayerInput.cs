@@ -39,19 +39,19 @@ public class PlayerInput : MonoBehaviour
         .Where(_ => Input.GetKeyDown(selectKeyCanon))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Canon;
-            SoundManager.Instance.PlaySe("yumi_select");
+            SoundManager.Instance.PlaySe("Canon_select");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyArmor))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Armor;
-            SoundManager.Instance.PlaySe("ashigaru_select");
+            SoundManager.Instance.PlaySe("Armor_select");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyHorse))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Horse;
-            SoundManager.Instance.PlaySe("kiba_select");
+            SoundManager.Instance.PlaySe("Horse_select");
         });
         // 決定
         Observable.EveryUpdate()
@@ -63,6 +63,7 @@ public class PlayerInput : MonoBehaviour
             soldier.GetComponent<Soldier>().Init(IsLeftSide(), this.transform);
             soldier.transform.SetSiblingIndex(0); // 目隠しの下に来るように
             SoundManager.Instance.PlaySe("decision6");
+            SoundManager.Instance.PlaySe(this.selectedSoldierType.ToString()+"_spawn");
         });
         // update
         this.ObserveEveryValueChanged(x => x.currentLineIdx).Subscribe(_ => {
