@@ -70,6 +70,10 @@ namespace TurnM
                 m_fraction -= 1f;
                 m_pos.x += ((m_plType == SARTS.Soldier.PlSide.Pl1) ? 1 : -1);
 
+                if (m_gameManagetScr != null)
+                {
+                    m_gameManagetScr.PlayMoveSe(m_pieceType, m_pos.x);
+                }
             }
         }
 

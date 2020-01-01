@@ -12,6 +12,8 @@ namespace TurnM
         [SerializeField, ReadOnlyWhenPlayingAttribute] Slider m_slider = null;
         [SerializeField, ReadOnly] bool m_isTick = false;
         [SerializeField] AudioSource m_tickAc = null;
+        [SerializeField] AudioClip m_tickClipP1 = null;
+        [SerializeField] AudioClip m_tickClipP2 = null;
         public bool isTick { get { return m_isTick; } }
         public bool isOdd { get { return ((m_tickCount >= 0) && ((m_tickCount & 1) == 1)); } }
         public bool isEven { get { return ((m_tickCount >= 0) && ((m_tickCount & 1) == 0)); } }
@@ -44,7 +46,7 @@ namespace TurnM
                     m_tickCount++;
                     if (m_tickAc != null)
                     {
-                        m_tickAc.Play();
+                        m_tickAc.PlayOneShot(isEven ? m_tickClipP1 : m_tickClipP2);
                         if (m_slider != null)
                         {
                             ColorBlock cblk = m_slider.colors;

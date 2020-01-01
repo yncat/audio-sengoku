@@ -258,14 +258,26 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 7ab813d13456d48a58b3cd99a8c1a3d3, type: 3}
     fraction: 0.667
     isFlip: 1
+    moveAudioClip: {fileID: 8300000, guid: a32d40ffe4b02b0488678440d8dff98e, type: 3}
+    battleAudioClip: {fileID: 8300000, guid: f9fc8d96508f08148ac7e085a6f51472, type: 3}
+    winAudioClip: {fileID: 8300000, guid: caeebd5c7b49c0345b1eb2727c6120f4, type: 3}
+    loseAudioClip: {fileID: 8300000, guid: 10795429145c281439955743d10dda4e, type: 3}
   - pieceType: 1
     sprite: {fileID: 21300000, guid: d65b4a88ae3524a24bc101e8f704ec42, type: 3}
     fraction: 1
     isFlip: 1
+    moveAudioClip: {fileID: 8300000, guid: aa9c305f90d36b6439e29fded95ed7e8, type: 3}
+    battleAudioClip: {fileID: 8300000, guid: a1d1052e3eca1e947b7e8d320e805b2a, type: 3}
+    winAudioClip: {fileID: 8300000, guid: 8d5c37a0ec0057e489372d9a1b2123b7, type: 3}
+    loseAudioClip: {fileID: 8300000, guid: 10795429145c281439955743d10dda4e, type: 3}
   - pieceType: 2
     sprite: {fileID: 21300000, guid: fd91e543f6eb8457eaa234f723abae72, type: 3}
     fraction: 0.334
     isFlip: 1
+    moveAudioClip: {fileID: 8300000, guid: c934c03d3618bb641a3b326c4e9ce42d, type: 3}
+    battleAudioClip: {fileID: 8300000, guid: fef131f931570af4e8809427f5a33031, type: 3}
+    winAudioClip: {fileID: 8300000, guid: f0dbef621d7495f4e8fddef769a1360c, type: 3}
+    loseAudioClip: {fileID: 8300000, guid: 10795429145c281439955743d10dda4e, type: 3}
 --- !u!4 &177147318
 Transform:
   m_ObjectHideFlags: 0
@@ -1629,6 +1641,8 @@ MonoBehaviour:
   m_slider: {fileID: 1589292326}
   m_isTick: 0
   m_tickAc: {fileID: 1589292327}
+  m_tickClipP1: {fileID: 8300000, guid: b626364c3792d4b90804539153a20eb2, type: 3}
+  m_tickClipP2: {fileID: 8300000, guid: f083552135bbf46d78e7968bcf8d9896, type: 3}
 --- !u!114 &1589292326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1689,7 +1703,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b626364c3792d4b90804539153a20eb2, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2382,7 +2396,7 @@ MonoBehaviour:
   m_gameManagetScr: {fileID: 177147317}
   m_lineGroup: {fileID: 1678877195}
   m_pos: {x: 0, y: 2}
-  m_pieceType: 0
+  m_pieceType: 1
   m_plType: 0
   m_soldierImage: {fileID: 2092978642}
 --- !u!1 &2136214430
