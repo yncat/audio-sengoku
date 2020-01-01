@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace TurnM
 {
+    public enum SEKind
+    {
+        Move=0,
+        Battle,
+        Win,
+        Lose
+    };
+
     [System.Serializable]
     public class SoldierInfo
     {
@@ -37,11 +45,46 @@ namespace TurnM
 
         public void PlayMoveSe(SARTS.Soldier.PieceType _plType, int _posX)
         {
+            playGameSe(_plType, _posX, SEKind.Move);
+        }
+
+        public void PlayBattleSe(SARTS.Soldier.PieceType _plType, int _posX)
+        {
+            playGameSe(_plType, _posX, SEKind.Battle);
+        }
+
+        public void PlayWinSe(SARTS.Soldier.PieceType _plType, int _posX)
+        {
+            playGameSe(_plType, _posX, SEKind.Win);
+        }
+
+        public void PlayLoseSe(SARTS.Soldier.PieceType _plType, int _posX)
+        {
+            playGameSe(_plType, _posX, SEKind.Lose);
+        }
+
+
+        /// <summary>
+        /// Plaies the game se.
+        /// </summary>
+        /// <param name="_plType">Pl type.</param>
+        /// <param name="_posX">Position x.</param>
+        /// <param name="_kind">Kind.</param>
+        void playGameSe(SARTS.Soldier.PieceType _plType, int _posX, SEKind _kind)
+        {
             for (int i = 0; i < m_soldierInfoArr.Length; ++i)
             {
                 if (_plType == m_soldierInfoArr[i].pieceType)
                 {
-                    m_gameAc.PlayOneShot(m_soldierInfoArr[i].moveAudioClip);
+                    AudioClip ac = null;
+                    switch (_kind)
+                    {
+                        case SEKind.Move:   ac = m_soldierInfoArr[i].moveAudioClip; break;
+                        case SEKind.Battle: ac = m_soldierInfoArr[i].battleAudioClip; break;
+                        case SEKind.Win:    ac = m_soldierInfoArr[i].winAudioClip; break;
+                        case SEKind.Lose:   ac = m_soldierInfoArr[i].loseAudioClip; break;
+                    }
+                    m_gameAc.PlayOneShot(ac);
                     break;
                 }
             }
