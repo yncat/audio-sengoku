@@ -15,15 +15,18 @@ namespace TurnM
         public bool isTick { get { return m_isTick; } }
         public bool isOdd { get { return ((m_tickCount >= 0) && ((m_tickCount & 1) == 1)); } }
         public bool isEven { get { return ((m_tickCount >= 0) && ((m_tickCount & 1) == 0)); } }
+        public bool isOddPrevious { get { return ((m_tickCountPrevious >= 0) && ((m_tickCount & 1) == 1)); } }
+        public bool isEvenPrevious { get { return ((m_tickCountPrevious >= 0) && ((m_tickCount & 1) == 0)); } }
         float m_timer;
         int m_tickCount=-1;
+        int m_tickCountPrevious = -1;
 
         // Start is called before the first frame update
         void Start()
         {
             m_isTick = false;
             m_timer = m_tickTime;
-            m_tickCount = -1;
+            m_tickCount = m_tickCountPrevious = - 1;
         }
 
         // Update is called once per frame
@@ -37,6 +40,7 @@ namespace TurnM
                 {
                     m_isTick = true;
                     m_timer += m_tickTime;
+                    m_tickCountPrevious = m_tickCount;
                     m_tickCount++;
                     if (m_tickAc != null)
                     {
