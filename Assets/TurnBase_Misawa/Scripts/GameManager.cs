@@ -26,6 +26,11 @@ namespace TurnM
     }
     public class GameManager : MonoBehaviour
     {
+        [SerializeField, ReadOnlyWhenPlaying] int m_fieldW = 10;
+        [SerializeField, ReadOnlyWhenPlaying] int m_fieldH = 1;
+        [SerializeField, ReadOnlyWhenPlaying] AnimationCurve m_panAc = AnimationCurve.Linear(0f, -1f, 1f, 1f);
+        public int fieldW { get { return m_fieldW; } }
+        public int fieldH { get { return m_fieldH; } }
         [SerializeField] AudioSource m_gameAc = null;
         public AudioSource gameAc { get { return m_gameAc; } }
         [SerializeField] SoldierInfo[] m_soldierInfoArr = null;
@@ -43,26 +48,10 @@ namespace TurnM
 
         }
 
-        public void PlayMoveSe(SARTS.Soldier.PieceType _plType, int _posX)
+        public float GetStereoPan(float _ddx)
         {
-            playGameSe(_plType, _posX, SEKind.Move);
+            return m_panAc.Evaluate(Mathf.Clamp01(_ddx));
         }
-
-        public void PlayBattleSe(SARTS.Soldier.PieceType _plType, int _posX)
-        {
-            playGameSe(_plType, _posX, SEKind.Battle);
-        }
-
-        public void PlayWinSe(SARTS.Soldier.PieceType _plType, int _posX)
-        {
-            playGameSe(_plType, _posX, SEKind.Win);
-        }
-
-        public void PlayLoseSe(SARTS.Soldier.PieceType _plType, int _posX)
-        {
-            playGameSe(_plType, _posX, SEKind.Lose);
-        }
-
 
         /// <summary>
         /// Plaies the game se.
@@ -70,13 +59,13 @@ namespace TurnM
         /// <param name="_plType">Pl type.</param>
         /// <param name="_posX">Position x.</param>
         /// <param name="_kind">Kind.</param>
-        void playGameSe(SARTS.Soldier.PieceType _plType, int _posX, SEKind _kind)
+        public AudioClip GetSeClip(SARTS.Soldier.PieceType _plType, SEKind _kind)
         {
+            AudioClip ac = null;
             for (int i = 0; i < m_soldierInfoArr.Length; ++i)
             {
                 if (_plType == m_soldierInfoArr[i].pieceType)
                 {
-                    AudioClip ac = null;
                     switch (_kind)
                     {
                         case SEKind.Move:   ac = m_soldierInfoArr[i].moveAudioClip; break;
@@ -84,10 +73,10 @@ namespace TurnM
                         case SEKind.Win:    ac = m_soldierInfoArr[i].winAudioClip; break;
                         case SEKind.Lose:   ac = m_soldierInfoArr[i].loseAudioClip; break;
                     }
-                    m_gameAc.PlayOneShot(ac);
                     break;
                 }
             }
+            return ac;
         }
     }
 }

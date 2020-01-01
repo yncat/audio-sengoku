@@ -8,8 +8,9 @@ namespace TurnM
     public class Soldier : MonoBehaviour
     {
         [SerializeField, ReadOnlyWhenPlaying] TickTimer m_tickTimerScr = null;
-        [SerializeField, ReadOnlyWhenPlaying] GameManager m_gameManagetScr = null; 
+        [SerializeField, ReadOnlyWhenPlaying] GameManager m_gameManagetScr = null;
         [SerializeField, ReadOnlyWhenPlaying] VerticalLayoutGroup m_lineGroup = null;
+        [SerializeField] AudioSource m_as = null;
         [SerializeField] Vector2Int m_pos = Vector2Int.zero;
         [SerializeField] SARTS.Soldier.PieceType m_pieceType = SARTS.Soldier.PieceType.Pawn;
         [SerializeField] SARTS.Soldier.PlSide m_plType = SARTS.Soldier.PlSide.Pl1;
@@ -27,7 +28,7 @@ namespace TurnM
         {
             if (m_tickTimerScr.isTick)
             {
-                if(isMyTurn())
+                if (isMyTurn())
                 {
                     updatePosition();
                 }
@@ -72,7 +73,7 @@ namespace TurnM
 
                 if (m_gameManagetScr != null)
                 {
-                    m_gameManagetScr.PlayMoveSe(m_pieceType, m_pos.x);
+                    playSe(m_pieceType,SEKind.Move, m_pos.x);
                 }
             }
         }
@@ -96,9 +97,9 @@ namespace TurnM
                 }
                 if (m_gameManagetScr != null)
                 {
-                    for(int i=0; i< m_gameManagetScr.soldierInfoArr.Length; ++i)
+                    for (int i = 0; i < m_gameManagetScr.soldierInfoArr.Length; ++i)
                     {
-                        if(m_pieceType== m_gameManagetScr.soldierInfoArr[i].pieceType)
+                        if (m_pieceType == m_gameManagetScr.soldierInfoArr[i].pieceType)
                         {
                             if (m_soldierImage != null)
                             {
@@ -108,7 +109,8 @@ namespace TurnM
                                 {
                                     scl.x *= -1f;
                                 }
-                                if (m_plType == SARTS.Soldier.PlSide.Pl2) {
+                                if (m_plType == SARTS.Soldier.PlSide.Pl2)
+                                {
                                     scl.x *= -1f;
                                 }
                                 transform.localScale = scl;
@@ -120,5 +122,23 @@ namespace TurnM
                 }
             }
         }
+
+        /// <summary>
+        /// Plaies the se.
+        /// </summary>
+        /// <param name="_plType">Pl type.</param>
+        /// <param name="_posX">Position x.</param>
+        /// <param name="_kind">Kind.</param>
+        void playSe(SARTS.Soldier.PieceType _plType, SEKind _kind, int _posX)
+        {
+            AudioClip ac = m_gameManagetScr.GetSeClip(_plType, _kind);
+            if (ac != null)
+            {
+                float ddx = Mathf.Clamp01((float)_posX / (float)m_gameManagetScr.fieldW);
+                m_as.panStereo = m_gameManagetScr.GetStereoPan(ddx);
+                m_as.PlayOneShot(ac);
+            }
+        }
+
     }
 }

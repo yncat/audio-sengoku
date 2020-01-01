@@ -7,8 +7,7 @@ namespace TurnM
 {
     public class GameField : MonoBehaviour
     {
-        [SerializeField, ReadOnlyWhenPlaying] int m_fieldW = 10;
-        [SerializeField, ReadOnlyWhenPlaying] int m_fieldH = 1;
+        [SerializeField, ReadOnlyWhenPlaying] GameManager m_gameManagerScr = null;
         [SerializeField, ReadOnlyWhenPlaying] VerticalLayoutGroup m_baseGroup = null;
 
         // Start is called before the first frame update
@@ -25,24 +24,24 @@ namespace TurnM
                     }
                     Transform lineTr = m_baseGroup.transform.GetChild(0);
                     num = lineTr.childCount;
-                    if (num > m_fieldW)
+                    if (num > m_gameManagerScr.fieldW)
                     {
-                        for (int i = m_fieldW; i < num; ++i)
+                        for (int i = m_gameManagerScr.fieldW; i < num; ++i)
                         {
-                            DestroyImmediate(lineTr.GetChild(m_fieldW).gameObject);
+                            DestroyImmediate(lineTr.GetChild(m_gameManagerScr.fieldW).gameObject);
                         }
-                    }else if(num < m_fieldW)
+                    }else if(num < m_gameManagerScr.fieldW)
                     {
-                        for (int i = num; i < m_fieldW; ++i)
+                        for (int i = num; i < m_gameManagerScr.fieldW; ++i)
                         {
                             Instantiate(lineTr.GetChild(0).gameObject, lineTr);
                         }
 
                     }
                     num = m_baseGroup.transform.childCount;
-                    if (num < m_fieldH)
+                    if (num < m_gameManagerScr.fieldH)
                     {
-                        for (int i = num; i < m_fieldH; ++i)
+                        for (int i = num; i < m_gameManagerScr.fieldH; ++i)
                         {
                             Instantiate(m_baseGroup.transform.GetChild(0).gameObject, m_baseGroup.transform);
                         }
