@@ -74,19 +74,22 @@ namespace TurnM
 
         public void OnSoldierGenerate()
         {
-            if (m_soldiersParentTr != null) { }
-            if (m_outputAudioSource != null)
+            if (m_gameManagerScr.IsMyTurn(m_plSide))
             {
-                m_outputAudioSource.Stop();
-                m_outputAudioSource.PlayOneShot(m_gameManagerScr.soldierInfoArr[m_selectedPieceId].battleAudioClip);
+                if (m_soldiersParentTr != null) { }
+                if (m_outputAudioSource != null)
+                {
+                    m_outputAudioSource.Stop();
+                    m_outputAudioSource.PlayOneShot(m_gameManagerScr.soldierInfoArr[m_selectedPieceId].battleAudioClip);
+                }
+                GameObject go = Instantiate(m_soldierPrefab, m_soldiersParentTr);
+                go.GetComponent<Soldier>().Init(
+                    m_gameManagerScr,
+                    m_plSide,
+                    m_gameManagerScr.soldierInfoArr[m_selectedPieceId].pieceType,
+                    m_pos);
+                Destroy(go, 1000f);
             }
-            GameObject go = Instantiate(m_soldierPrefab, m_soldiersParentTr);
-            go.GetComponent<Soldier>().Init(
-                m_gameManagerScr,
-                m_plSide,
-                m_gameManagerScr.soldierInfoArr[m_selectedPieceId].pieceType,
-                m_pos );
-            Destroy(go, 1000f);
         }
 
         int changePieceType()

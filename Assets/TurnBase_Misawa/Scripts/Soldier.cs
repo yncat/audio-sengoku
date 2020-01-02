@@ -26,9 +26,12 @@ namespace TurnM
         {
             if (m_gameManagerScr.tickTimerScr.isTick)
             {
-                if (isMyTurn())
+                // IsMyTurn は思考時間を示しているので、移動時間は相手の思考時間中
+                //if (m_gameManagerScr.IsMyTurn(m_plSide == SARTS.Soldier.PlSide.Pl1 ? SARTS.Soldier.PlSide.Pl2 : SARTS.Soldier.PlSide.Pl1)) ;
+                if(m_gameManagerScr.IsMyMoveTurn(m_plSide))
                 {
                     updatePosition();
+                    checkPosition();
                 }
             }
             fixPosition();
@@ -41,20 +44,6 @@ namespace TurnM
             m_pos = _pos;
             fixPosition();
             return true;
-        }
-
-        bool isMyTurn()
-        {
-            bool ret = false;
-            if (m_gameManagerScr.tickTimerScr.isOddPrevious && (m_plSide == SARTS.Soldier.PlSide.Pl1))
-            {
-                ret = true;
-            }
-            else if (m_gameManagerScr.tickTimerScr.isEvenPrevious && (m_plSide == SARTS.Soldier.PlSide.Pl2))
-            {
-                ret = true;
-            }
-            return ret;
         }
 
         void updatePosition()
@@ -83,6 +72,18 @@ namespace TurnM
                     playSe(m_pieceType,SEKind.Move, m_pos.x);
                 }
             }
+        }
+
+        bool checkPosition()
+        {
+            bool ret = false;
+            int w = m_gameManagerScr.baseLineGroup.transform.GetChild(0).childCount;
+            if ((m_pos.x < 0) || (m_pos.x >= w))
+            {
+                ret = true;
+                Destroy(gameObject);
+            }
+            return ret;
         }
 
         void fixPosition()
@@ -143,7 +144,10 @@ namespace TurnM
             {
                 float ddx = Mathf.Clamp01((float)_posX / (float)m_gameManagerScr.fieldW);
                 m_as.panStereo = m_gameManagerScr.GetStereoPan(ddx);
-                m_as.PlayOneShot(ac);
+                m_as.Stop();
+                m_as.clip = ac;
+                m_as.pitch = Random.Range(0.98f, 1.02f)+(m_plSide== SARTS.Soldier.PlSide.Pl1 ? 0f:0.2f);
+                m_as.PlayDelayed(Random.Range(0f,0.2f));
             }
         }
 

@@ -83,5 +83,34 @@ namespace TurnM
             }
             return ac;
         }
+
+        public bool IsMyTurn(SARTS.Soldier.PlSide _plSide)
+        {
+            bool ret = false;
+            if (m_tickTimerScr.isOdd && (_plSide == SARTS.Soldier.PlSide.Pl2))
+            {
+                ret = true;
+            }
+            else if (m_tickTimerScr.isEven && (_plSide == SARTS.Soldier.PlSide.Pl1))
+            {
+                ret = true;
+            }
+            return ret;
+        }
+
+        public bool IsMyMoveTurn(SARTS.Soldier.PlSide _plSide)
+        {
+            bool ret = false;
+            if (m_tickTimerScr.isOddPrevious && (_plSide == SARTS.Soldier.PlSide.Pl1))
+            {
+                ret = true;
+            }
+            else if (m_tickTimerScr.isEvenPrevious && (_plSide == SARTS.Soldier.PlSide.Pl2))
+            {
+                ret = true;
+            }
+            return ret;
+        }
+
     }
 }
