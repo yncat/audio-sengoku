@@ -7,13 +7,11 @@ namespace TurnM
 {
     public class Soldier : MonoBehaviour
     {
-        [SerializeField, ReadOnlyWhenPlaying] TickTimer m_tickTimerScr = null;
-        [SerializeField, ReadOnlyWhenPlaying] GameManager m_gameManagetScr = null;
-        [SerializeField, ReadOnlyWhenPlaying] VerticalLayoutGroup m_lineGroup = null;
-        [SerializeField] AudioSource m_as = null;
+        [SerializeField,ReadOnlyWhenPlaying] GameManager m_gameManagerScr = null;
+        [SerializeField,ReadOnlyWhenPlaying] SARTS.Soldier.PlSide m_plSide = SARTS.Soldier.PlSide.Pl1;
+        [SerializeField,ReadOnlyWhenPlaying] SARTS.Soldier.PieceType m_pieceType = SARTS.Soldier.PieceType.Pawn;
         [SerializeField] Vector2Int m_pos = Vector2Int.zero;
-        [SerializeField] SARTS.Soldier.PieceType m_pieceType = SARTS.Soldier.PieceType.Pawn;
-        [SerializeField] SARTS.Soldier.PlSide m_plType = SARTS.Soldier.PlSide.Pl1;
+        [SerializeField] AudioSource m_as = null;
         [SerializeField] Image m_soldierImage = null;
         float m_fraction;
 
@@ -26,7 +24,7 @@ namespace TurnM
         // Update is called once per frame
         void Update()
         {
-            if (m_tickTimerScr.isTick)
+            if (m_gameManagerScr.tickTimerScr.isTick)
             {
                 if (isMyTurn())
                 {
@@ -35,15 +33,24 @@ namespace TurnM
             }
             fixPosition();
         }
+        public bool Init(GameManager _gameManagerScr, SARTS.Soldier.PlSide _plSide, SARTS.Soldier.PieceType _pieceType, Vector2Int _pos)
+        {
+            m_gameManagerScr = _gameManagerScr;
+            m_plSide = _plSide;
+            m_pieceType = _pieceType;
+            m_pos = _pos;
+            fixPosition();
+            return true;
+        }
 
         bool isMyTurn()
         {
             bool ret = false;
-            if (m_tickTimerScr.isOddPrevious && (m_plType == SARTS.Soldier.PlSide.Pl1))
+            if (m_gameManagerScr.tickTimerScr.isOddPrevious && (m_plSide == SARTS.Soldier.PlSide.Pl1))
             {
                 ret = true;
             }
-            else if (m_tickTimerScr.isEvenPrevious && (m_plType == SARTS.Soldier.PlSide.Pl2))
+            else if (m_gameManagerScr.tickTimerScr.isEvenPrevious && (m_plSide == SARTS.Soldier.PlSide.Pl2))
             {
                 ret = true;
             }
@@ -53,13 +60,13 @@ namespace TurnM
         void updatePosition()
         {
             float spd = 1f;
-            if (m_gameManagetScr != null)
+            if (m_gameManagerScr != null)
             {
-                for (int i = 0; i < m_gameManagetScr.soldierInfoArr.Length; ++i)
+                for (int i = 0; i < m_gameManagerScr.soldierInfoArr.Length; ++i)
                 {
-                    if (m_pieceType == m_gameManagetScr.soldierInfoArr[i].pieceType)
+                    if (m_pieceType == m_gameManagerScr.soldierInfoArr[i].pieceType)
                     {
-                        spd = m_gameManagetScr.soldierInfoArr[i].fraction;
+                        spd = m_gameManagerScr.soldierInfoArr[i].fraction;
                         break;
                     }
                 }
@@ -69,9 +76,9 @@ namespace TurnM
             if (m_fraction >= 1f)
             {
                 m_fraction -= 1f;
-                m_pos.x += ((m_plType == SARTS.Soldier.PlSide.Pl1) ? 1 : -1);
+                m_pos.x += ((m_plSide == SARTS.Soldier.PlSide.Pl1) ? 1 : -1);
 
-                if (m_gameManagetScr != null)
+                if (m_gameManagerScr != null)
                 {
                     playSe(m_pieceType,SEKind.Move, m_pos.x);
                 }
@@ -80,36 +87,36 @@ namespace TurnM
 
         void fixPosition()
         {
-            if (m_lineGroup != null)
+            if (m_gameManagerScr.baseLineGroup != null)
             {
-                int h = m_lineGroup.transform.childCount;
-                int w = m_lineGroup.transform.GetChild(0).childCount;
+                int h = m_gameManagerScr.baseLineGroup.transform.childCount;
+                int w = m_gameManagerScr.baseLineGroup.transform.GetChild(0).childCount;
                 int x = Mathf.Clamp(m_pos.x, 0, w - 1);
                 int y = Mathf.Clamp(m_pos.y, 0, h - 1);
                 m_pos.x = x;
                 m_pos.y = y;
                 if ((x >= 0) && (x < w) && (y >= 0) && (y < h))
                 {
-                    RectTransform lineTr = m_lineGroup.transform.GetChild(y) as RectTransform;
+                    RectTransform lineTr = m_gameManagerScr.baseLineGroup.transform.GetChild(y) as RectTransform;
                     RectTransform boxTr = lineTr.GetChild(x) as RectTransform;
                     RectTransform imageBaseTr = boxTr.GetChild(0) as RectTransform;
                     transform.position = imageBaseTr.position; // + (Vector3)(pos2d);
                 }
-                if (m_gameManagetScr != null)
+                if (m_gameManagerScr != null)
                 {
-                    for (int i = 0; i < m_gameManagetScr.soldierInfoArr.Length; ++i)
+                    for (int i = 0; i < m_gameManagerScr.soldierInfoArr.Length; ++i)
                     {
-                        if (m_pieceType == m_gameManagetScr.soldierInfoArr[i].pieceType)
+                        if (m_pieceType == m_gameManagerScr.soldierInfoArr[i].pieceType)
                         {
                             if (m_soldierImage != null)
                             {
-                                m_soldierImage.sprite = m_gameManagetScr.soldierInfoArr[i].sprite;
+                                m_soldierImage.sprite = m_gameManagerScr.soldierInfoArr[i].sprite;
                                 Vector3 scl = Vector3.one;
-                                if (m_gameManagetScr.soldierInfoArr[i].isFlip)
+                                if (m_gameManagerScr.soldierInfoArr[i].isFlip)
                                 {
                                     scl.x *= -1f;
                                 }
-                                if (m_plType == SARTS.Soldier.PlSide.Pl2)
+                                if (m_plSide == SARTS.Soldier.PlSide.Pl2)
                                 {
                                     scl.x *= -1f;
                                 }
@@ -131,11 +138,11 @@ namespace TurnM
         /// <param name="_kind">Kind.</param>
         void playSe(SARTS.Soldier.PieceType _plType, SEKind _kind, int _posX)
         {
-            AudioClip ac = m_gameManagetScr.GetSeClip(_plType, _kind);
+            AudioClip ac = m_gameManagerScr.GetSeClip(_plType, _kind);
             if (ac != null)
             {
-                float ddx = Mathf.Clamp01((float)_posX / (float)m_gameManagetScr.fieldW);
-                m_as.panStereo = m_gameManagetScr.GetStereoPan(ddx);
+                float ddx = Mathf.Clamp01((float)_posX / (float)m_gameManagerScr.fieldW);
+                m_as.panStereo = m_gameManagerScr.GetStereoPan(ddx);
                 m_as.PlayOneShot(ac);
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TurnM
 {
@@ -29,6 +30,10 @@ namespace TurnM
         [SerializeField, ReadOnlyWhenPlaying] int m_fieldW = 10;
         [SerializeField, ReadOnlyWhenPlaying] int m_fieldH = 1;
         [SerializeField, ReadOnlyWhenPlaying] AnimationCurve m_panAc = AnimationCurve.Linear(0f, -1f, 1f, 1f);
+        [SerializeField, ReadOnlyWhenPlaying] TickTimer m_tickTimerScr = null;
+        public TickTimer tickTimerScr { get { return m_tickTimerScr; } }
+        [SerializeField, ReadOnlyWhenPlaying] VerticalLayoutGroup m_baseLineGroup = null;
+        public VerticalLayoutGroup baseLineGroup { get { return m_baseLineGroup; } }
         public int fieldW { get { return m_fieldW; } }
         public int fieldH { get { return m_fieldH; } }
         [SerializeField] AudioSource m_gameAc = null;

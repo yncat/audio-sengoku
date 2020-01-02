@@ -8,21 +8,20 @@ namespace TurnM
     public class GameField : MonoBehaviour
     {
         [SerializeField, ReadOnlyWhenPlaying] GameManager m_gameManagerScr = null;
-        [SerializeField, ReadOnlyWhenPlaying] VerticalLayoutGroup m_baseGroup = null;
 
         // Start is called before the first frame update
         void Awake()
         {
-            if (m_baseGroup != null)
+            if (m_gameManagerScr.baseLineGroup != null)
             {
-                if (m_baseGroup.transform.childCount > 0)
+                if (m_gameManagerScr.baseLineGroup.transform.childCount > 0)
                 {
-                    int num = m_baseGroup.transform.childCount;
+                    int num = m_gameManagerScr.baseLineGroup.transform.childCount;
                     for (int i=0; i< num - 1; ++i)
                     {
-                        DestroyImmediate(m_baseGroup.transform.GetChild(1).gameObject);
+                        DestroyImmediate(m_gameManagerScr.baseLineGroup.transform.GetChild(1).gameObject);
                     }
-                    Transform lineTr = m_baseGroup.transform.GetChild(0);
+                    Transform lineTr = m_gameManagerScr.baseLineGroup.transform.GetChild(0);
                     num = lineTr.childCount;
                     if (num > m_gameManagerScr.fieldW)
                     {
@@ -38,12 +37,12 @@ namespace TurnM
                         }
 
                     }
-                    num = m_baseGroup.transform.childCount;
+                    num = m_gameManagerScr.baseLineGroup.transform.childCount;
                     if (num < m_gameManagerScr.fieldH)
                     {
                         for (int i = num; i < m_gameManagerScr.fieldH; ++i)
                         {
-                            Instantiate(m_baseGroup.transform.GetChild(0).gameObject, m_baseGroup.transform);
+                            Instantiate(m_gameManagerScr.baseLineGroup.transform.GetChild(0).gameObject, m_gameManagerScr.baseLineGroup.transform);
                         }
 
                     }
