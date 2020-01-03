@@ -5,7 +5,7 @@ namespace MultiLines_0
 {
 public class TimeKeeper : MonoBehaviour
 {
-    // param:
+    // param:１ターンの時間
     private const int INTERVAL = 10;
     // --
     void Start()

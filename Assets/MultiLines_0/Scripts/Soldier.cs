@@ -5,7 +5,8 @@ namespace MultiLines_0
 {
 public class Soldier : MonoBehaviour
 {
-    // param:speed
+    // param:1ターン毎の移動力の定数
+    // これとは別にユニットごとのスピードはプレハブで指定できる
     private const float STEP = 600f;
     // --
     [SerializeField] private SoldierType type;
