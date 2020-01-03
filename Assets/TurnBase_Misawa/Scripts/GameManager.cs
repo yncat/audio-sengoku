@@ -40,6 +40,7 @@ namespace TurnM
         public AudioSource gameAc { get { return m_gameAc; } }
         [SerializeField] SoldierInfo[] m_soldierInfoArr = null;
         public SoldierInfo[] soldierInfoArr { get { return m_soldierInfoArr; } }
+        public bool is1stTurn { get { return m_tickTimerScr.is1stTurn; } }
 
         // Start is called before the first frame update
         void Start()

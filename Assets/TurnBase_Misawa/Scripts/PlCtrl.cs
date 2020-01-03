@@ -15,9 +15,11 @@ namespace TurnM
         [SerializeField] KeyCode m_plGenerateKey = KeyCode.RightArrow;
         [SerializeField] AudioClip m_UpDownClip = null;
         [SerializeField, ReadOnlyWhenPlaying] GameManager m_gameManagerScr = null;
+        [SerializeField, ReadOnlyWhenPlaying] Image m_playerImage = null;
         [SerializeField, ReadOnlyWhenPlaying] Transform m_soldiersParentTr = null;
         [SerializeField, ReadOnlyWhenPlaying] GameObject m_soldierPrefab = null;
         [SerializeField, ReadOnlyWhenPlaying] Image m_soldierIconImage = null;
+        [SerializeField, ReadOnlyWhenPlaying] Text m_remainText = null;
         [SerializeField, ReadOnlyWhenPlaying] AudioSource m_outputAudioSource = null;
         [SerializeField] Vector2Int m_pos = Vector2Int.zero;
         Vector2Int m_previousPos;
@@ -28,6 +30,7 @@ namespace TurnM
         {
             m_previousPos = m_pos;
             m_selectedPieceId = 0;
+            m_remainText.text = "";
             if (m_outputAudioSource != null)
             {
                 m_outputAudioSource.panStereo = (m_plSide == SARTS.Soldier.PlSide.Pl1) ? -1 : 1;
@@ -39,19 +42,19 @@ namespace TurnM
         {
             if (Input.GetKeyDown(m_plUpKey))
             {
-                OnLineUp();
+                    OnLineUp();
             }
             else if (Input.GetKeyDown(m_plDownKey))
             {
-                OnLineDown();
+                    OnLineDown();
             }
             else if (Input.GetKeyDown(m_plChangeKey))
             {
-                OnPlChange();
+                    OnPlChange();
             }
             else if (Input.GetKeyDown(m_plGenerateKey))
             {
-                OnSoldierGenerate();
+                    OnSoldierGenerate();
             }
 
             fixPosition();
@@ -59,17 +62,20 @@ namespace TurnM
 
         public void OnLineUp()
         {
-            m_pos.y -= 1;
+            if (m_gameManagerScr.IsMyTurn(m_plSide) || m_gameManagerScr.is1stTurn)
+                m_pos.y -= 1;
         }
 
         public void OnLineDown()
         {
-            m_pos.y += 1;
+            if (m_gameManagerScr.IsMyTurn(m_plSide) || m_gameManagerScr.is1stTurn)
+                m_pos.y += 1;
         }
 
         public void OnPlChange()
         {
-            changePieceType();
+            if (m_gameManagerScr.IsMyTurn(m_plSide) || m_gameManagerScr.is1stTurn)
+                changePieceType();
         }
 
         public void OnSoldierGenerate()
@@ -138,7 +144,7 @@ namespace TurnM
                 {
                     scl.x *= -1f;
                 }
-                transform.localScale = scl;
+                m_playerImage.transform.localScale = scl;
             }
             m_previousPos = m_pos;
         }
