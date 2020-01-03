@@ -6,7 +6,9 @@ namespace MultiLines_0
 {
 public class PlayerInput : MonoBehaviour
 {
-    private const float MOVE_INTERVAL = 200f;
+    // param:
+    private const int LINE_LENGTH = 3;
+    // --
     private int currentLineIdx;
     private SoldierType selectedSoldierType = SoldierType.NotSet;
     [SerializeField] KeyCode moveKeyLeft;
@@ -15,7 +17,6 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] KeyCode selectKeyArmor;
     [SerializeField] KeyCode selectKeyHorse;
     [SerializeField] KeyCode okKey;
-    private int LINE_LENGTH = 3;
     void Start()
     {
         this.currentLineIdx = (int)Mathf.Floor(LINE_LENGTH / 2);
@@ -66,10 +67,14 @@ public class PlayerInput : MonoBehaviour
             SoundManager.Instance.PlaySe(this.selectedSoldierType.ToString()+"_spawn");
         });
         // update
-        this.ObserveEveryValueChanged(x => x.currentLineIdx).Subscribe(_ => {
-            var y = (this.currentLineIdx - Mathf.Floor(LINE_LENGTH / 2)) * MOVE_INTERVAL;
+        this.ObserveEveryValueChanged(x => x.currentLineIdx).Subscribe(_ => {    
+            // ラインによる移動距離の調整, 親要素にGameManagerがついていることが前提
+            var canvasScaler = transform.parent.GetComponent<UnityEngine.UI.CanvasScaler>();
+            var PADDING = 100;
+            int moveInterval = Mathf.FloorToInt(canvasScaler.referenceResolution.y - PADDING) / LINE_LENGTH;
+            var y = (this.currentLineIdx - Mathf.Floor(LINE_LENGTH / 2)) * moveInterval;
             var anchor = GetComponent<RectTransform>().anchoredPosition;
-            var pos = new Vector3(anchor. x, y, 0f);
+            var pos = new Vector3(anchor.x, y, 0f);
             GetComponent<RectTransform>().anchoredPosition = pos;
         });
     }
