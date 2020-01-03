@@ -5,15 +5,25 @@ namespace MultiLines_0
 {
 public class Soldier : MonoBehaviour
 {
+    // param:speed
+    private const float STEP = 600f;
+    // --
     [SerializeField] private SoldierType type;
     [SerializeField] private float speed;
     private Transform parent;
+    private Vector3 target;
     void Start()
     {
+        this.target = transform.position;
     }
     void Update()
     {
-        transform.Translate(Vector2.right * this.speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * 1000f);
+    }
+    public void Move()
+    {
+        var relativeMove = Vector3.right * this.speed * Time.deltaTime * STEP;
+        this.target = this.target + relativeMove;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
