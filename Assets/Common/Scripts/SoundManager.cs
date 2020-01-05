@@ -26,6 +26,7 @@ public class SoundManager : SingletonMonoBehaviour< SoundManager > {
         public float volume    = 1.0f;
         public float fadeSpeed = 1.0f;
         public long  frame     = 0;
+        public float panning    = 0f;
 
         public void FadeIn(){
             SoundManager.Instance.StartCoroutine( fadeIn() );
@@ -39,6 +40,7 @@ public class SoundManager : SingletonMonoBehaviour< SoundManager > {
             volume = 1.0f;
             fadeSpeed = 1.0f;
             frame = 0;
+            panning = 0f;
         }
 
         private IEnumerator fadeIn(){
@@ -124,6 +126,8 @@ public class SoundManager : SingletonMonoBehaviour< SoundManager > {
         bgmSource.volume = volume.bgm * bgmHandle.volume;
         foreach(var pair in seHandles ){
             pair.Value.volume = volume.se * pair.Key.volume;
+            // pan
+            pair.Value.panStereo = pair.Key.panning;
         }
 
         frameCounter++;
