@@ -7,7 +7,7 @@ namespace MultiLines_0
 public class PlayerInput : MonoBehaviour
 {
     // param:
-    private const int LINE_LENGTH = 3;
+    private const int LINE_LENGTH = 2;
     // --
     private int currentLineIdx;
     private SoldierType selectedSoldierType = SoldierType.NotSet;
