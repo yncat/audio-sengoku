@@ -7,7 +7,7 @@ public class Soldier : MonoBehaviour
 {
     // param:1ターン毎の移動力の定数
     // これとは別にユニットごとのスピードはプレハブで指定できる
-    private const float STEP = 500f; //300
+    private const float STEP = 1000f; //300
     // --
     [SerializeField] private SoldierType type;
     [SerializeField] private float speed;
