@@ -82,6 +82,10 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
     }
+    public Side GetSide()
+    {
+        return side;
+    }
     private bool IsLeftSide()
     {
         return GetComponent<RectTransform>().anchoredPosition.x < 0f;

@@ -35,8 +35,9 @@ public class Soldier : MonoBehaviour
             var result = Judge(other.name);
             if (result == BattleResult.Win)
             {
+                // note: よくよく考えたら勝った負けたの音は伝えなくてよい
                 // 勝った
-                SoundManager.Instance.PlaySe("decision12");
+                // PlayWinSe();
             }
             else
             {
@@ -75,5 +76,11 @@ public class Soldier : MonoBehaviour
             if (name.Contains("Armor")) return BattleResult.Win;
         return BattleResult.Lose;
     }
+    // private void PlayWinSe()
+    // {
+    //     var handle = SoundManager.Instance.PlaySe("decision12");
+    //     handle.panning = IsGoLeft() ? 1f : -1f;
+
+    // }
 }
 }

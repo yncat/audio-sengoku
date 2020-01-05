@@ -9,7 +9,9 @@ namespace MultiLines_0
 public class Messenger : MonoBehaviour
 {
     [SerializeField] private TMPro.TextMeshProUGUI textField;
+    // param: メッセージの速度
     private const float SPEED = 200f;
+    // --
     void Start(){}
     void Update(){}
     public void Run(BattleResult result, Transform parent)
@@ -31,7 +33,8 @@ public class Messenger : MonoBehaviour
                 // todo: あとで適当な文章に入れ替える
                 this.textField.text = result.ToString();
                 GetComponent<UnityEngine.UI.Image>().enabled = false;
-                SoundManager.Instance.PlaySe(GetVoiceName(result));
+                var handle = SoundManager.Instance.PlaySe(GetVoiceName(result));
+                handle.panning = parent.GetComponent<PlayerInput>().GetSide() == Side.Right ? 1f : -1f;
                 // --
                 Observable.Timer(TimeSpan.FromSeconds(1.5f)).Subscribe(time =>
                 {
@@ -39,6 +42,7 @@ public class Messenger : MonoBehaviour
                 });
             }).AddTo(this);
     }
+    // se-param: 伝令, 3種類, 上から勝ち、引き分け、負け
     private string GetVoiceName(BattleResult result)
     {
         switch(result)
