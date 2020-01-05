@@ -7,7 +7,7 @@ public class Soldier : MonoBehaviour
 {
     // param:1ターン毎の移動力の定数
     // これとは別にユニットごとのスピードはプレハブで指定できる
-    private const float STEP = 600f;
+    private const float STEP = 500f; //300
     // --
     [SerializeField] private SoldierType type;
     [SerializeField] private float speed;
@@ -39,13 +39,14 @@ public class Soldier : MonoBehaviour
                 // note: よくよく考えたら勝った負けたの音は伝えなくてよい
                 // 勝った
                 // PlayWinSe();
+                SoundManager.Instance.PlaySe("decision12");
             }
             else
             {
                 // 負けた or 引き分け
+                GenerateMessenger(result);
                 Destroy(this.gameObject);
             }
-            GenerateMessenger(result);
         }
     }
     private void GenerateMessenger(BattleResult result)

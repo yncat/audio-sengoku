@@ -34,7 +34,20 @@ public class Messenger : MonoBehaviour
                 this.textField.text = result.ToString();
                 GetComponent<UnityEngine.UI.Image>().enabled = false;
                 var handle = SoundManager.Instance.PlaySe(GetVoiceName(result));
-                handle.panning = parent.GetComponent<PlayerInput>().GetSide() == Side.Right ? 1f : -1f;
+
+                if (result == BattleResult.Tie)
+                {
+                    handle.panning = 0.5f;
+
+                } else
+                {
+                    handle.panning = parent.GetComponent<PlayerInput>().GetSide() == Side.Right ? 1f : -1f;
+                }
+                
+                
+                
+                // Debug.Log(parent.GetComponent<PlayerInput>().GetSide());
+
                 // --
                 Observable.Timer(TimeSpan.FromSeconds(1.5f)).Subscribe(time =>
                 {
