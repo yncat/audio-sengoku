@@ -32,6 +32,7 @@ public class Soldier : MonoBehaviour
         {
             if (IsGoLeft() == other.GetComponent<Soldier>().IsGoLeft()) return;
             // --
+            SoundManager.Instance.PlaySe(this.type.ToString()+"_combat");
             var result = Judge(other.name);
             if (result == BattleResult.Win)
             {
