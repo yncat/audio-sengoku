@@ -14,34 +14,42 @@ namespace TurnM
         [SerializeField] AudioSource m_as = null;
         [SerializeField] Image m_soldierImage = null;
         float m_fraction;
+        bool m_isInitialzed = false;
 
         // Start is called before the first frame update
         void Start()
         {
-            m_fraction = 0f;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (m_gameManagerScr.tickTimerScr.isTick)
+        }
+
+        public bool Init(GameManager _gameManagerScr, SARTS.Soldier.PlSide _plSide, SARTS.Soldier.PieceType _pieceType, Vector2Int _pos)
+        {
+            m_isInitialzed = true;
+            m_fraction = 0f;
+            m_gameManagerScr = _gameManagerScr;
+            m_plSide = _plSide;
+            m_pieceType = _pieceType;
+            gameObject.name = m_plSide.ToString() + "_" + m_pieceType.ToString();
+            m_pos = _pos;
+            fixPosition();
+            return true;
+        }
+        public bool Progress(GameManager _gameManagerScr)
+        {
+            if (m_isInitialzed && _gameManagerScr.tickTimerScr.isTick)
             {
                 // IsMyTurn は思考時間を示しているので、移動時間は相手の思考時間中
-                //if (m_gameManagerScr.IsMyTurn(m_plSide == SARTS.Soldier.PlSide.Pl1 ? SARTS.Soldier.PlSide.Pl2 : SARTS.Soldier.PlSide.Pl1)) ;
-                if(m_gameManagerScr.IsMyMoveTurn(m_plSide))
+                //if (_gameManagerScr.IsMyTurn(m_plSide == SARTS.Soldier.PlSide.Pl1 ? SARTS.Soldier.PlSide.Pl2 : SARTS.Soldier.PlSide.Pl1)) ;
+                if (_gameManagerScr.IsMyMoveTurn(m_plSide))
                 {
                     updatePosition();
                     checkPosition();
                 }
             }
-            fixPosition();
-        }
-        public bool Init(GameManager _gameManagerScr, SARTS.Soldier.PlSide _plSide, SARTS.Soldier.PieceType _pieceType, Vector2Int _pos)
-        {
-            m_gameManagerScr = _gameManagerScr;
-            m_plSide = _plSide;
-            m_pieceType = _pieceType;
-            m_pos = _pos;
             fixPosition();
             return true;
         }

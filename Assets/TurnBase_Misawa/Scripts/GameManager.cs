@@ -17,6 +17,14 @@ namespace TurnM
     public class SoldierInfo
     {
         public SARTS.Soldier.PieceType pieceType = SARTS.Soldier.PieceType.Pawn;
+        [Range(1,100)] public int cost = 10;
+        [Range(1, 100)] public int life = 10;
+        [Range(0, 100)] public int atkPawn = 10;
+        [Range(0, 100)] public int atkKnight = 10;
+        [Range(0, 100)] public int atkTank = 10;
+        [Range(0, 100)] public int grdPawn = 0;
+        [Range(0, 100)] public int grdKnight = 0;
+        [Range(0, 100)] public int grdTank = 0;
         public Sprite sprite = null;
         [Range(0.01f, 1f)] public float fraction = 1f;
         public bool isFlip = false;
@@ -32,6 +40,8 @@ namespace TurnM
         [SerializeField, ReadOnlyWhenPlaying] AnimationCurve m_panAc = AnimationCurve.Linear(0f, -1f, 1f, 1f);
         [SerializeField, ReadOnlyWhenPlaying] TickTimer m_tickTimerScr = null;
         public TickTimer tickTimerScr { get { return m_tickTimerScr; } }
+        [SerializeField, ReadOnlyWhenPlaying] Transform m_plControllersParentTr = null;
+        [SerializeField, ReadOnlyWhenPlaying] Transform m_soldiersParentTr = null;
         [SerializeField, ReadOnlyWhenPlaying] VerticalLayoutGroup m_baseLineGroup = null;
         public VerticalLayoutGroup baseLineGroup { get { return m_baseLineGroup; } }
         public int fieldW { get { return m_fieldW; } }
@@ -41,6 +51,7 @@ namespace TurnM
         [SerializeField] SoldierInfo[] m_soldierInfoArr = null;
         public SoldierInfo[] soldierInfoArr { get { return m_soldierInfoArr; } }
         public bool is1stTurn { get { return m_tickTimerScr.is1stTurn; } }
+        public bool isTick { get { return m_tickTimerScr.isTick; } }
 
         // Start is called before the first frame update
         void Start()
@@ -51,7 +62,22 @@ namespace TurnM
         // Update is called once per frame
         void Update()
         {
-
+            foreach (Transform tr in m_plControllersParentTr)
+            {
+                PlCtrl plCtrlScr = tr.GetComponent<PlCtrl>();
+                if (plCtrlScr != null)
+                {
+                    plCtrlScr.Progress(this);
+                }
+            }
+            foreach (Transform tr in m_soldiersParentTr)
+            {
+                Soldier soldirScr = tr.GetComponent<Soldier>();
+                if (soldirScr != null)
+                {
+                    soldirScr.Progress(this);
+                }
+            }
         }
 
         public float GetStereoPan(float _ddx)

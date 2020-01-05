@@ -24,39 +24,58 @@ namespace TurnM
         [SerializeField] Vector2Int m_pos = Vector2Int.zero;
         Vector2Int m_previousPos;
         int m_selectedPieceId;
+        int m_remainPower;
 
         // Start is called before the first frame update
         void Start()
         {
+            Init();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+        }
+
+        public void Init()
+        {
             m_previousPos = m_pos;
             m_selectedPieceId = 0;
-            m_remainText.text = "";
+            m_remainPower = 0;
+            m_remainText.text = ((float)m_remainPower * 0.1f).ToString();
             if (m_outputAudioSource != null)
             {
                 m_outputAudioSource.panStereo = (m_plSide == SARTS.Soldier.PlSide.Pl1) ? -1 : 1;
             }
         }
 
-        // Update is called once per frame
-        void Update()
+        public void Progress(GameManager _gameManagerScr)
         {
+            if (_gameManagerScr.isTick)
+            {
+                if (_gameManagerScr.IsMyTurn(m_plSide))
+                {
+                    m_remainPower += 10;
+                }
+            }
             if (Input.GetKeyDown(m_plUpKey))
             {
-                    OnLineUp();
+                OnLineUp();
             }
             else if (Input.GetKeyDown(m_plDownKey))
             {
-                    OnLineDown();
+                OnLineDown();
             }
             else if (Input.GetKeyDown(m_plChangeKey))
             {
-                    OnPlChange();
+                OnPlChange();
             }
             else if (Input.GetKeyDown(m_plGenerateKey))
             {
-                    OnSoldierGenerate();
+                OnSoldierGenerate();
             }
 
+            m_remainText.text = ((float)m_remainPower * 0.1f).ToString();
             fixPosition();
         }
 
@@ -80,8 +99,9 @@ namespace TurnM
 
         public void OnSoldierGenerate()
         {
-            if (m_gameManagerScr.IsMyTurn(m_plSide))
+            if (m_gameManagerScr.IsMyTurn(m_plSide) && (m_remainPower >= m_gameManagerScr.soldierInfoArr[m_selectedPieceId].cost))
             {
+                m_remainPower-= m_gameManagerScr.soldierInfoArr[m_selectedPieceId].cost;
                 if (m_soldiersParentTr != null) { }
                 if (m_outputAudioSource != null)
                 {
