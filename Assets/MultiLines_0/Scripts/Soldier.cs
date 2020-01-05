@@ -38,7 +38,7 @@ public class Soldier : MonoBehaviour
                 // note: よくよく考えたら勝った負けたの音は伝えなくてよい
                 // 勝った
                 // PlayWinSe();
-                SoundManager.Instance.PlaySe("decision12");
+                // SoundManager.Instance.PlaySe("decision12");
             }
             else
             {

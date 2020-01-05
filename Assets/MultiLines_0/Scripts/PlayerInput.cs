@@ -65,7 +65,7 @@ public class PlayerInput : MonoBehaviour
             soldier.GetComponent<Soldier>().Init(IsLeftSide(), this.transform);
             soldier.transform.SetSiblingIndex(0); // 目隠しの下に来るように
             PlaySeWithPan("decision6");
-            PlaySeWithPan(this.selectedSoldierType.ToString()+"_spawn");
+            // PlaySeWithPan(this.selectedSoldierType.ToString()+"_spawn");
         });
         // update
         this.ObserveEveryValueChanged(x => x.currentLineIdx).Subscribe(_ => {    
