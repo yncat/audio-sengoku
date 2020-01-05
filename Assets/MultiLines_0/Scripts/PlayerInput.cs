@@ -7,7 +7,7 @@ namespace MultiLines_0
 public class PlayerInput : MonoBehaviour
 {
     // param:
-    private const int LINE_LENGTH = 2;
+    private const int LINE_LENGTH = 1;
     // --
     private int currentLineIdx;
     private SoldierType selectedSoldierType = SoldierType.NotSet;
@@ -27,33 +27,33 @@ public class PlayerInput : MonoBehaviour
         .Where(_ => 0 < this.currentLineIdx)
         .Subscribe(_ => {
             this.currentLineIdx --;
-            PlaySeWithPan("decision1");
+            PlaySeWithPan("t_bottom");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(moveKeyRight))
         .Where(_ => this.currentLineIdx < LINE_LENGTH - 1)
         .Subscribe(_ => {
             this.currentLineIdx ++;
-            PlaySeWithPan("decision2");
+            PlaySeWithPan("t_top");
         });
         // --
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyCanon))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Canon;
-            PlaySeWithPan("Canon_select");
+            PlaySeWithPan("t_archer");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyArmor))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Armor;
-            PlaySeWithPan("Armor_select");
+            PlaySeWithPan("t_pawn");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyHorse))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Horse;
-            PlaySeWithPan("Horse_select");
+            PlaySeWithPan("t_knight");
         });
         // 決定
         Observable.EveryUpdate()
@@ -64,8 +64,8 @@ public class PlayerInput : MonoBehaviour
             ,transform.position, Quaternion.identity, transform.parent) as GameObject;
             soldier.GetComponent<Soldier>().Init(IsLeftSide(), this.transform);
             soldier.transform.SetSiblingIndex(0); // 目隠しの下に来るように
-            PlaySeWithPan("decision6");
-            PlaySeWithPan(this.selectedSoldierType.ToString()+"_spawn");
+            PlaySeWithPan("t_spawn");
+            // PlaySeWithPan(this.selectedSoldierType.ToString()+"_spawn");
         });
         // update
         this.ObserveEveryValueChanged(x => x.currentLineIdx).Subscribe(_ => {    

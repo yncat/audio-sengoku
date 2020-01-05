@@ -10,7 +10,7 @@ public class Messenger : MonoBehaviour
 {
     [SerializeField] private TMPro.TextMeshProUGUI textField;
     // param: メッセージの速度
-    private const float SPEED = 200f;
+    private const float SPEED = 400f;
     // --
     void Start(){}
     void Update(){}
@@ -60,9 +60,9 @@ public class Messenger : MonoBehaviour
     {
         switch(result)
         {
-            case BattleResult.Win :  return "decision9";
-            case BattleResult.Tie :  return "decision10";
-            case BattleResult.Lose : return "decision11";
+            case BattleResult.Win :  return "t_win";
+            case BattleResult.Tie :  return "t_lose";
+            case BattleResult.Lose : return "t_lose";
         }
         return "";
     }

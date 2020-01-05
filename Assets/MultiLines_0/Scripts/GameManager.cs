@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMPro.TextMeshProUGUI gameOverText;
     private float halfCanvasWidth;
+    private bool isEnd = false;
     void Start()
     {
         // このコンポーネントがCanvasについているのを前提とする
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
+        if (this.isEnd) return;
         // ゲームオーバー判定
         var longest = GetLongRunSoldier();
         if (longest == null) return;
@@ -23,12 +25,14 @@ public class GameManager : MonoBehaviour
         if (this.halfCanvasWidth < longestPosX)
         {
             StartCoroutine("GameOverProcess", "WIN : A");
-            SoundManager.Instance.PlaySe("decision7");
+            SoundManager.Instance.PlaySe("t_win");
+            this.isEnd = true;
         } else
         if (longestPosX < this.halfCanvasWidth * -1f)
         {
             StartCoroutine("GameOverProcess", "WIN : B");
-            SoundManager.Instance.PlaySe("decision8");
+            SoundManager.Instance.PlaySe("t_win");
+            this.isEnd = true;
         }
     }
     IEnumerator GameOverProcess(string text)
