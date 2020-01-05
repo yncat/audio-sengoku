@@ -11,6 +11,7 @@ public class PlayerInput : MonoBehaviour
     // --
     private int currentLineIdx;
     private SoldierType selectedSoldierType = SoldierType.NotSet;
+    [SerializeField] Side side;
     [SerializeField] KeyCode moveKeyLeft;
     [SerializeField] KeyCode moveKeyRight;
     [SerializeField] KeyCode selectKeyCanon;
@@ -26,33 +27,33 @@ public class PlayerInput : MonoBehaviour
         .Where(_ => 0 < this.currentLineIdx)
         .Subscribe(_ => {
             this.currentLineIdx --;
-            SoundManager.Instance.PlaySe("decision1");
+            PlaySeWithPan("decision1");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(moveKeyRight))
         .Where(_ => this.currentLineIdx < LINE_LENGTH - 1)
         .Subscribe(_ => {
             this.currentLineIdx ++;
-            SoundManager.Instance.PlaySe("decision2");
+            PlaySeWithPan("decision2");
         });
         // --
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyCanon))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Canon;
-            SoundManager.Instance.PlaySe("Canon_select");
+            PlaySeWithPan("Canon_select");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyArmor))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Armor;
-            SoundManager.Instance.PlaySe("Armor_select");
+            PlaySeWithPan("Armor_select");
         });
         Observable.EveryUpdate()
         .Where(_ => Input.GetKeyDown(selectKeyHorse))
         .Subscribe(_ => {
             this.selectedSoldierType = SoldierType.Horse;
-            SoundManager.Instance.PlaySe("Horse_select");
+            PlaySeWithPan("Horse_select");
         });
         // 決定
         Observable.EveryUpdate()
@@ -63,8 +64,8 @@ public class PlayerInput : MonoBehaviour
             ,transform.position, Quaternion.identity, transform.parent) as GameObject;
             soldier.GetComponent<Soldier>().Init(IsLeftSide(), this.transform);
             soldier.transform.SetSiblingIndex(0); // 目隠しの下に来るように
-            SoundManager.Instance.PlaySe("decision6");
-            SoundManager.Instance.PlaySe(this.selectedSoldierType.ToString()+"_spawn");
+            PlaySeWithPan("decision6");
+            PlaySeWithPan(this.selectedSoldierType.ToString()+"_spawn");
         });
         // update
         this.ObserveEveryValueChanged(x => x.currentLineIdx).Subscribe(_ => {    
@@ -81,9 +82,18 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
     }
+    public Side GetSide()
+    {
+        return side;
+    }
     private bool IsLeftSide()
     {
         return GetComponent<RectTransform>().anchoredPosition.x < 0f;
+    }
+    private void PlaySeWithPan(string name)
+    {
+        var handle = SoundManager.Instance.PlaySe(name);
+        handle.panning = this.side == Side.Right ? 1f : -1f;
     }
 }
 }
