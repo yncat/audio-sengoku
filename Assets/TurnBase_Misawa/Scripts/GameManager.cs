@@ -78,6 +78,30 @@ namespace TurnM
                     soldirScr.Progress(this);
                 }
             }
+            if (isTick)
+            {
+                if (IsMyMoveTurn(SARTS.Soldier.PlSide.Pl1))
+                {
+                    attackCk(SARTS.Soldier.PlSide.Pl1, SARTS.Soldier.PlSide.Pl2);
+                }
+                if (IsMyMoveTurn(SARTS.Soldier.PlSide.Pl2))
+                {
+                    attackCk(SARTS.Soldier.PlSide.Pl2, SARTS.Soldier.PlSide.Pl1);
+                }
+            }
+        }
+
+        public SoldierInfo GetSoldierInfo(SARTS.Soldier.PieceType _pieceType) {
+            SoldierInfo ret = null;
+            for (int i = 0; i < m_soldierInfoArr.Length; ++i)
+            {
+                if (m_soldierInfoArr[i].pieceType == _pieceType)
+                {
+                    ret = m_soldierInfoArr[i];
+                    break;
+                }
+            }
+            return ret;
         }
 
         public float GetStereoPan(float _ddx)
@@ -137,6 +161,50 @@ namespace TurnM
                 ret = true;
             }
             return ret;
+        }
+
+        public bool GenerateMessenger(SARTS.Soldier.PlSide _plSide, Vector2Int _pos)
+        {
+            return true;
+        }
+
+        bool attackCk(SARTS.Soldier.PlSide _offencePlSide, SARTS.Soldier.PlSide _defencePlSide)
+        {
+            foreach (Transform offTr in m_soldiersParentTr)
+            {
+                Soldier offSoldirScr = offTr.GetComponent<Soldier>();
+                if ((offSoldirScr != null)&& (offSoldirScr.plSide == _offencePlSide))
+                {
+                    Vector2Int offPos = offSoldirScr.pos;
+                    foreach (Transform defTr in m_soldiersParentTr)
+                    {
+                        Soldier defSoldirScr = defTr.GetComponent<Soldier>();
+                        if ((defSoldirScr != null)&&(defSoldirScr.plSide == _defencePlSide))
+                        {
+                            Vector2Int defPos = defSoldirScr.pos;
+                            if(defPos== offPos)
+                            {
+                                defSoldirScr.life = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            // 最後にDestroy
+            foreach (Transform defTr in m_soldiersParentTr)
+            {
+                Soldier defSoldirScr = defTr.GetComponent<Soldier>();
+                if ((defSoldirScr != null) && (defSoldirScr.plSide == _defencePlSide))
+                {
+                    if (defSoldirScr.life <= 0)
+                    {
+                        Destroy(defSoldirScr.gameObject);
+                        GenerateMessenger(_defencePlSide, defSoldirScr.pos);
+                    }
+
+                }
+            }
+            return true;
         }
 
     }

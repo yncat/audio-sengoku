@@ -9,10 +9,13 @@ namespace TurnM
     {
         [SerializeField,ReadOnlyWhenPlaying] GameManager m_gameManagerScr = null;
         [SerializeField,ReadOnlyWhenPlaying] SARTS.Soldier.PlSide m_plSide = SARTS.Soldier.PlSide.Pl1;
+        public SARTS.Soldier.PlSide plSide { get { return m_plSide; } }
         [SerializeField,ReadOnlyWhenPlaying] SARTS.Soldier.PieceType m_pieceType = SARTS.Soldier.PieceType.Pawn;
         [SerializeField] Vector2Int m_pos = Vector2Int.zero;
+        public Vector2Int pos { get { return m_pos; } }
         [SerializeField] AudioSource m_as = null;
         [SerializeField] Image m_soldierImage = null;
+        [SerializeField, ReadOnly] public int life = 0;
         float m_fraction;
         bool m_isInitialzed = false;
 
@@ -33,8 +36,13 @@ namespace TurnM
             m_gameManagerScr = _gameManagerScr;
             m_plSide = _plSide;
             m_pieceType = _pieceType;
-            gameObject.name = m_plSide.ToString() + "_" + m_pieceType.ToString();
+            gameObject.name = _plSide.ToString() + "_" + _pieceType.ToString();
             m_pos = _pos;
+            SoldierInfo info = m_gameManagerScr.GetSoldierInfo(_pieceType);
+            if (info != null)
+            {
+                life = info.life;
+            }
             fixPosition();
             return true;
         }
