@@ -35,17 +35,16 @@ namespace TurnM
     }
     public class GameManager : MonoBehaviour
     {
-        [SerializeField, ReadOnlyWhenPlaying] int m_fieldW = 10;
-        [SerializeField, ReadOnlyWhenPlaying] int m_fieldH = 1;
         [SerializeField, ReadOnlyWhenPlaying] AnimationCurve m_panAc = AnimationCurve.Linear(0f, -1f, 1f, 1f);
         [SerializeField, ReadOnlyWhenPlaying] TickTimer m_tickTimerScr = null;
         public TickTimer tickTimerScr { get { return m_tickTimerScr; } }
+        [SerializeField, ReadOnlyWhenPlaying] GameField m_gameFieldScr = null;
+        public GameField gameFieldScr { get { return m_gameFieldScr; } }
         [SerializeField, ReadOnlyWhenPlaying] Transform m_plControllersParentTr = null;
         [SerializeField, ReadOnlyWhenPlaying] Transform m_soldiersParentTr = null;
-        [SerializeField, ReadOnlyWhenPlaying] VerticalLayoutGroup m_baseLineGroup = null;
-        public VerticalLayoutGroup baseLineGroup { get { return m_baseLineGroup; } }
-        public int fieldW { get { return m_fieldW; } }
-        public int fieldH { get { return m_fieldH; } }
+        public VerticalLayoutGroup baseLineGroup { get { return m_gameFieldScr.baseLineGroup; } }
+        public int fieldW { get { return m_gameFieldScr.fieldW; } }
+        public int fieldH { get { return m_gameFieldScr.fieldH; } }
         [SerializeField] AudioSource m_gameAc = null;
         public AudioSource gameAc { get { return m_gameAc; } }
         [SerializeField] SoldierInfo[] m_soldierInfoArr = null;
