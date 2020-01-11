@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-# Project name: snyper
 # Application entry point
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
-import gettext
-import glob
 import globalVars
 import logging
+import glob
 from logging import getLogger, FileHandler, Formatter
 import os
 import sound_lib.sample
-
 import bgtsound
 import buildSettings
 import keyCodes
@@ -26,11 +23,8 @@ class Application(window.SingletonWindow):
 	def initialize(self):
 		super().initialize(1200, 800, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 		self.initLogger()
-		self.translator = gettext.translation("messages", "locale", languages=["ja-JP"], fallback=True)
-		self.translator.install()
 		self.sounds={}
-		self._loadSoundFolder("UI")
-		self._loadSoundFolder("player")
+		self._loadSoundFolder("general")
 
 	def initLogger(self):
 		self.hLogHandler=FileHandler("debug.log", mode="w", encoding="UTF-8")
@@ -43,9 +37,11 @@ class Application(window.SingletonWindow):
 		self.log.info("Starting.")
 
 	def run(self):
-		globalVars.game.initialize()
-		globalVars.game.debugmenu()
-		self.exit()
+		while(True):
+			self.frameUpdate()
+			if self.keyPressed(keyCodes.K_ESCAPE): break
+		#end main loop
+	#end def run
 
 	def _loadSoundFolder(self,path):
 		files=glob.glob("fx/"+path+"/*.ogg")
@@ -53,25 +49,6 @@ class Application(window.SingletonWindow):
 		for elem in files:
 			self.sounds[path+"/"+os.path.basename(elem)]=sound_lib.sample.Sample(elem)
 	# end loadSounds
-
-	def createMenu(self,title):
-		m=window.Menu()
-		m.initialize(self,title,None,self.sounds["UI/cursor.ogg"],self.sounds["UI/decide.ogg"],self.sounds["UI/cancel.ogg"])
-		return m
-
-	def showMenu(self,title,items=None):
-		if isinstance(title,window.Menu):
-			m=title
-		else:
-			m=window.Menu()
-			m.initialize(self,title,items,self.sounds["UI/cursor.ogg"],self.sounds["UI/decide.ogg"],self.sounds["UI/cancel.ogg"])
-		#end title is given, not a menu instance
-		m.open()
-		while(True):
-			self.frameUpdate()
-			r=m.frameUpdate()
-			if r is None: continue
-			return r
 
 	def playSound(self,key):
 		bgtsound.playOneShot(self.sounds[key])
