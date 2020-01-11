@@ -7,3 +7,4 @@ pywin32
 pyogg
 numpy
 numpy-quaternion
+pyinstaller
