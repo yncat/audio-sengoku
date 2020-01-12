@@ -1,0 +1,11 @@
+libloader
+pygame
+wxpython
+pyOpenAL
+winpaths
+pywin32
+pyogg
+numpy
+numpy-quaternion
+pyinstaller
+pyobjc
