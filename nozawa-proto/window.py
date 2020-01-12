@@ -33,7 +33,7 @@ class SingletonWindow():
 		pygame.display.set_caption(ttl)
 		self.keys=[0]*255
 		self.previousKeys=[0]*255
-		self.speech=accessible_output2.outputs.pc_talker.PCTalker()
+		self.speech=accessible_output2.outputs.auto.Auto()
 		return True
 
 	def frameUpdate(self):
