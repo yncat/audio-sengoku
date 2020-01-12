@@ -33,7 +33,7 @@ class Application(window.SingletonWindow):
 		self.hLogHandler.setLevel(logging.DEBUG)
 		self.hLogFormatter=Formatter("%(name)s - %(levelname)s - %(message)s")
 		self.hLogHandler.setFormatter(self.hLogFormatter)
-		self.log=getLogger("snyper")
+		self.log=getLogger("sengoku")
 		self.log.setLevel(logging.DEBUG)
 		self.log.addHandler(self.hLogHandler)
 		self.log.info("Starting.")

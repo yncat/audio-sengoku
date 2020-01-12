@@ -8,3 +8,4 @@ pyogg
 numpy
 numpy-quaternion
 pyinstaller
+pyobjc

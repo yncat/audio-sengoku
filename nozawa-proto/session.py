@@ -24,13 +24,13 @@ class Session(object):
 		self.current_player=0
 
 	def start(self):
-		win=None
+		winner=None
 		while(True):
 			p=self.players[self.current_player]
-			win=self.moveUnits(p)
-			if win: break
+			winner=self.moveUnits(p)
+			if winner: break
 			globalVars.app.playSound("general/Jingle_Start.ogg")
-			globalVars.app.say("%sの先述" % p.name)
+			globalVars.app.say("%sの戦術" % p.name)
 			lane=p.getLane()
 			if lane==-1: break
 			self.sendMessenger(p,lane)
@@ -42,10 +42,11 @@ class Session(object):
 			self.current_player+=1
 			if self.current_player==2: self.advanceTurn()
 		#end while
-		if win:
-			app.playSound("general/Jingle_End_Win.ogg")
-			app.wait(2500)
-			app.say("%sの勝利!" % win.name)
+		if winner:
+			globalVars.app.playSound("general/Jingle_End_Win.ogg")
+			globalVars.app.wait(2500)
+			globalVars.app.say("%sの勝利!" % winner.name)
+			globalVars.app.wait(3000)
 		#end 勝利
 	#end start
 
@@ -64,7 +65,7 @@ class Session(object):
 				if u2 is None:
 					self.field[i][newpos]=u
 					self.field[i][j]=None
-					if newpos==0 or newpos==constants.FIELD_SIZE_Y:
+					if newpos==0 or newpos==constants.FIELD_SIZE_Y-1:
 						if newpos!=u.owner.y: win=u.owner
 					#end プレイヤーの勝利判定
 				else:
@@ -79,10 +80,10 @@ class Session(object):
 
 	def sendMessenger(self,p,lane):
 		globalVars.app.playSound("general/messenger.ogg")
-		pos=p.y-1
+		pos=p.y
 		dir=p.direction
 		found=[]
-		for i in range(constants.FIELD_SIZE_Y):
+		for i in range(constants.FIELD_SIZE_Y-1):
 			if dir==constants.DIRECTION_UP:
 				pos+=1
 			else:
