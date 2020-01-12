@@ -10,7 +10,7 @@ import re
 import subprocess
 import wx
 import sys
-import accessible_output2.outputs.pc_talker
+import accessible_output2.outputs.auto
 import keyCodes
 from bgtsound import *
 class SingletonWindow():
