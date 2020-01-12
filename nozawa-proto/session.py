@@ -11,6 +11,7 @@ import sound_lib.sample
 import bgtsound
 import buildSettings
 import keyCodes
+import units
 import window
 
 class Session(object):
@@ -21,7 +22,7 @@ class Session(object):
 			self.field.append([None]*constants.FIELD_SIZE_Y)
 		self.turn=1
 		self.current_player=0
-
+		self.units=[]
 
 	def start(self):
 		globalVars.app.playSound("general/Jingle_Start.ogg")
@@ -31,6 +32,10 @@ class Session(object):
 			lane=p.getLane()
 			if lane==-1: break
 			self.sendMessenger(p,lane)
+			lane=p.getLane()
+			if lane==-1: break
+			self.sendUnit(p,lane)
+
 			#ターン進める
 			self.current_player+=1
 			if self.current_player==2: self.advanceTurn()
@@ -51,7 +56,7 @@ class Session(object):
 			unit=self.field[lane][pos]
 			if unit is None: continue
 			unit_str="自軍の兵" if unit.owner is p else "敵軍の兵"
-			found.append("%d歩先に%s" % unit_str)
+			found.append("%d歩先に%s" % (abs(pos-p.y),unit_str))
 		#end for
 		globalVars.app.wait(1200)
 		if len(found)==0:
@@ -62,6 +67,12 @@ class Session(object):
 		found_str="%sがおりました!" % s
 		globalVars.app.say(found_str)
 		return
+
+	def sendUnit(self,p,lane):
+		u=units.Ashigaru(p)
+		self.units.append(u)
+		self.field[lane][p.y]=u
+		u.playSpawnSound()
 
 	def advanceTurn(self):
 		self.current_player=0

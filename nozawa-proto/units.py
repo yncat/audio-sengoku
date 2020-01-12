@@ -13,6 +13,16 @@ import keyCodes
 import window
 
 class UnitBase(object):
-	def __init__(self,owner,direction):
+	def __init__(self,owner):
 		self.owner=owner
-		self.direction=direction
+
+	def playSpawnSound(self):
+		pass
+
+class Ashigaru(UnitBase):
+	def playSpawnSound(self):
+		globalVars.app.playSound("general/ashigaru_select.ogg")
+		globalVars.app.wait(600)
+		globalVars.app.playSound("general/ashigaru_spawn.ogg")
+		globalVars.app.wait(4000)
+
