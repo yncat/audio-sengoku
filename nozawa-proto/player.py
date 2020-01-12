@@ -14,8 +14,11 @@ import keyCodes
 import window
 
 class Player(object):
-	def __init__(self,keymap):
+	def __init__(self,keymap,name,y,direction):
 		self.keymap=keymap
+		self.name=name
+		self.y=y
+		self.direction=direction
 		self.cursor=0
 
 	def getLane(self):
@@ -32,3 +35,4 @@ class Player(object):
 	def moveCursor(self,val):
 		self.cursor+=val
 		globalVars.app.playOneShot(globalVars.app.sounds["general/select.ogg"], pitch=70+(self.cursor*15))
+
