@@ -43,7 +43,10 @@ class Session(object):
 			if self.current_player==2: self.advanceTurn()
 		#end while
 		if winner:
-			globalVars.app.playSound("general/Jingle_End_Win.ogg")
+			winner.processWin()
+			for elem in self.players:
+				if elem is not winner: elem.processLose()
+			#end lose
 			globalVars.app.wait(2500)
 			globalVars.app.say("%sの勝利!" % winner.name)
 			globalVars.app.wait(3000)

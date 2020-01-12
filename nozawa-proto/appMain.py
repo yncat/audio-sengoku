@@ -39,8 +39,8 @@ class Application(window.SingletonWindow):
 		self.log.info("Starting.")
 
 	def run(self):
-		p1=player.Player({'left': keyCodes.K_LEFT, 'right': keyCodes.K_RIGHT, 'up': keyCodes.K_UP},"信長",0,constants.DIRECTION_UP)
-		p2=player.Player({'left': keyCodes.K_a, 'right': keyCodes.K_d, 'up': keyCodes.K_w},"光秀",constants.FIELD_SIZE_Y-1,constants.DIRECTION_DOWN)
+		p1=player.Player({'left': keyCodes.K_LEFT, 'right': keyCodes.K_RIGHT, 'up': keyCodes.K_UP},"信長",0,constants.DIRECTION_UP,100)
+		p2=player.Player({'left': keyCodes.K_a, 'right': keyCodes.K_d, 'up': keyCodes.K_w},"光秀",constants.FIELD_SIZE_Y-1,constants.DIRECTION_DOWN,-100)
 		localSession=session.Session(p1,p2)
 		localSession.start()
 		#while(True):

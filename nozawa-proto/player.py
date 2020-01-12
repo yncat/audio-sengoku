@@ -14,11 +14,12 @@ import keyCodes
 import window
 
 class Player(object):
-	def __init__(self,keymap,name,y,direction):
+	def __init__(self,keymap,name,y,direction,pan):
 		self.keymap=keymap
 		self.name=name
 		self.y=y
 		self.direction=direction
+		self.pan=pan
 		self.cursor=0
 
 	def getLane(self):
@@ -34,5 +35,11 @@ class Player(object):
 
 	def moveCursor(self,val):
 		self.cursor+=val
-		globalVars.app.playOneShot(globalVars.app.sounds["general/select.ogg"], pitch=70+(self.cursor*15))
+		globalVars.app.playOneShot(globalVars.app.sounds["general/select.ogg"], pan=self.pan, pitch=70+(self.cursor*15))
+
+	def processWin(self):
+		globalVars.app.playOneShot(globalVars.app.sounds["general/Jingle_End_Win.ogg"], pan=self.pan)
+
+	def processLose(self):
+		globalVars.app.playOneShot(globalVars.app.sounds["general/Jingle_End_Lose.ogg"], pan=self.pan)
 
