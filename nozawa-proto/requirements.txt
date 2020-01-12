@@ -1,4 +1,3 @@
-libloader
 pygame
 wxpython
 pyOpenAL
