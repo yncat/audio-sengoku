@@ -19,5 +19,23 @@ class Session(object):
 		self.field=[]
 		for i in range(constants.FIELD_SIZE_X):
 			self.field.append([None]*constants.FIELD_SIZE_Y)
+			self.turn=1
+			self.current_player=0
 
+	def start(self):
+		globalVars.app.playSound("general/Jingle_Start.ogg")
+		while(True):
+			globalVars.app.say("player 1 の先述")
+			p=self.players[self.current_player]
+			lane=p.getLane()
+			if lane==-1: break
 
+			#ターン進める
+			self.current_player+=1
+			if self.current_player==2: self.advanceTurn()
+		#end while
+	#end start
+
+	def advanceTurn(self):
+		self.current_player=0
+		self.turn+=1

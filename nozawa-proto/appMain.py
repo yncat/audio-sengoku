@@ -10,6 +10,8 @@ import sound_lib.sample
 import bgtsound
 import buildSettings
 import keyCodes
+import player
+import session
 import window
 
 class Application(window.SingletonWindow):
@@ -25,7 +27,6 @@ class Application(window.SingletonWindow):
 		self.initLogger()
 		self.sounds={}
 		self._loadSoundFolder("general")
-
 	def initLogger(self):
 		self.hLogHandler=FileHandler("debug.log", mode="w", encoding="UTF-8")
 		self.hLogHandler.setLevel(logging.DEBUG)
@@ -37,11 +38,13 @@ class Application(window.SingletonWindow):
 		self.log.info("Starting.")
 
 	def run(self):
-		while(True):
-			self.frameUpdate()
-			if self.keyPressed(keyCodes.K_ESCAPE): break
-		#end main loop
-	#end def run
+		p1=player.Player({'left': keyCodes.K_LEFT, 'right': keyCodes.K_RIGHT, 'up': keyCodes.K_UP})
+		p2=player.Player({'left': keyCodes.K_a, 'right': keyCodes.K_d, 'up': keyCodes.K_w})
+		localSession=session.Session(p1,p2)
+		localSession.start()
+		#while(True):
+			#self.frameUpdate()
+			#if self.keyPressed(keyCodes.K_ESCAPE): break
 
 	def _loadSoundFolder(self,path):
 		files=glob.glob("fx/"+path+"/*.ogg")
