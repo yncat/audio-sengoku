@@ -4,3 +4,4 @@ numpy
 numpy-quaternion
 pyinstaller
 pyobjc
+appscript
