@@ -29,7 +29,7 @@ class Session(object):
 			p=self.players[self.current_player]
 			winner=self.moveUnits(p)
 			if winner: break
-			globalVars.app.playSound("Jingle_Start.ogg")
+			globalVars.app.playSound("turn.ogg")
 			globalVars.app.say("%sの戦術" % p.name)
 			lane=p.getLane()
 			if lane==-1: break
@@ -74,7 +74,7 @@ class Session(object):
 				else:
 					self.field[i][j]=None
 					self.field[i][newpos]=None
-					globalVars.app.playSound("ashigaru_combat.ogg")
+					globalVars.app.playSound("unit_combat.ogg")
 					globalVars.app.wait(3000)
 				#end ユニットの勝敗
 			#end フィールドスキャン
@@ -108,7 +108,7 @@ class Session(object):
 		return
 
 	def sendUnit(self,p,lane):
-		u=units.Ashigaru(p)
+		u=units.Generic(p)
 		self.field[lane][p.y]=u
 		u.playSpawnSound()
 

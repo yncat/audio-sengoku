@@ -28,7 +28,7 @@ class Application(window.SingletonWindow):
 		super().initialize(1200, 800, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 		self.initLogger()
 		self.sounds={}
-		self.skin=skin_manager.SkinManager(self,"sengoku")
+		self.skin=skin_manager.SkinManager(self,"war")
 
 	def initLogger(self):
 		self.hLogHandler=FileHandler("debug.log", mode="w", encoding="UTF-8")

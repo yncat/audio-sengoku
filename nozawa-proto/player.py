@@ -38,8 +38,7 @@ class Player(object):
 		globalVars.app.playSound("select.ogg",pan=self.pan,pitch=70+(self.cursor*15))
 
 	def processWin(self):
-		globalVars.app.playOneShot(globalVars.app.sounds["general/Jingle_End_Win.ogg"], pan=self.pan)
+		globalVars.app.playSound("jingle_end_win.ogg",pan=self.pan)
 
 	def processLose(self):
-		globalVars.app.playOneShot(globalVars.app.sounds["general/Jingle_End_Lose.ogg"], pan=self.pan)
-
+		globalVars.app.playSound("jingle_end_lose.ogg",pan=self.pan)
