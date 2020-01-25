@@ -5,11 +5,12 @@ import constants
 import globalVars
 
 class SkinManager(object):
-	"""ƒI[ƒfƒBƒIEƒXƒLƒ“‚ğŠÇ—‚µ‚Ü‚·B"""
-	def __init__(self,skin_name):
-		globalVars.app.loadSoundFolder(skin_name)
+	"""ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ»ã‚¹ã‚­ãƒ³ã‚’ç®¡ç†ã—ã¾ã™ã€‚"""
+	def __init__(self,app,skin_name):
+		#ã¾ã  globalVars ãŒ app ã‚’å‚ç…§ã—ã¦ã„ãªã„ã®ã§
+		app._loadSoundFolder(skin_name)
 		self.current_skin=skin_name
 
-	def playOneShot(self,file_name):
-		globalVars.app.playOneShot(globalVars.app.sounds["%s/%s" % (self.current_skin,file_name))
+	def playOneShot(self,file_name,pan=0,vol=0,pitch=100):
+		globalVars.app._playOneShot(globalVars.app.sounds["%s/%s" % (self.current_skin,file_name)],pan,vol,pitch)
 

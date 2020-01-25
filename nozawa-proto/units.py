@@ -21,8 +21,8 @@ class UnitBase(object):
 
 class Ashigaru(UnitBase):
 	def playSpawnSound(self):
-		globalVars.app.playSound("general/ashigaru_select.ogg")
+		globalVars.app.playSound("ashigaru_select.ogg")
 		globalVars.app.wait(600)
-		globalVars.app.playSound("general/ashigaru_spawn.ogg")
+		globalVars.app.playSound("ashigaru_spawn.ogg")
 		globalVars.app.wait(4000)
 

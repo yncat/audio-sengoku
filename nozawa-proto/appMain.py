@@ -13,6 +13,7 @@ import buildSettings
 import keyCodes
 import player
 import session
+import skin_manager
 import window
 
 class Application(window.SingletonWindow):
@@ -27,7 +28,8 @@ class Application(window.SingletonWindow):
 		super().initialize(1200, 800, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 		self.initLogger()
 		self.sounds={}
-		self._loadSoundFolder("general")
+		self.skin=skin_manager.SkinManager(self,"sengoku")
+
 	def initLogger(self):
 		self.hLogHandler=FileHandler("debug.log", mode="w", encoding="UTF-8")
 		self.hLogHandler.setLevel(logging.DEBUG)
@@ -54,10 +56,10 @@ class Application(window.SingletonWindow):
 			self.sounds[path+"/"+os.path.basename(elem)]=sound_lib.sample.Sample(elem)
 	# end loadSounds
 
-	def playSound(self,key):
-		bgtsound.playOneShot(self.sounds[key])
+	def playSound(self,key,pan=0,vol=0,pitch=100):
+		self.skin.playOneShot(key,pan,vol,pitch)
 
-	def playOneShot(self,key,pan=0,vol=0,pitch=100,wait=False):
+	def _playOneShot(self,key,pan=0,vol=0,pitch=100,wait=False):
 		s=bgtsound.playOneShot(key,pan,vol,pitch)
 		if wait:
 			while(s.playing is True):

@@ -35,7 +35,7 @@ class Player(object):
 
 	def moveCursor(self,val):
 		self.cursor+=val
-		globalVars.app.playOneShot(globalVars.app.sounds["general/select.ogg"], pan=self.pan, pitch=70+(self.cursor*15))
+		globalVars.app.playSound("select.ogg",pan=self.pan,pitch=70+(self.cursor*15))
 
 	def processWin(self):
 		globalVars.app.playOneShot(globalVars.app.sounds["general/Jingle_End_Win.ogg"], pan=self.pan)
