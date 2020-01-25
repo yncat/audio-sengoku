@@ -24,11 +24,12 @@ class Application(window.SingletonWindow):
 	"""
 	def __init__(self):
 		super().__init__()
-	def initialize(self):
+
+	def initialize(self,skin_name):
 		super().initialize(1200, 800, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 		self.initLogger()
 		self.sounds={}
-		self.skin=skin_manager.SkinManager(self,"war")
+		self.skin=skin_manager.SkinManager(self,skin_name)
 
 	def initLogger(self):
 		self.hLogHandler=FileHandler("debug.log", mode="w", encoding="UTF-8")
