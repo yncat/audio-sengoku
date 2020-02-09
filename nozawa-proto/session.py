@@ -82,6 +82,7 @@ class Session(object):
 		return win
 
 	def sendMessenger(self,p,lane):
+		v=[]
 		globalVars.app.playSound("messenger.ogg")
 		pos=p.y
 		dir=p.direction
@@ -94,17 +95,17 @@ class Session(object):
 			#end どっちに進むか
 			unit=self.field[lane][pos]
 			if unit is None: continue
-			unit_str="自軍の兵" if unit.owner is p else "敵軍の兵"
-			found.append("%d歩先に%s" % (abs(pos-p.y),unit_str))
+			unit_str="friendly" if unit.owner is p else "opponent"
+			v.append("v_forward%d.ogg" % abs(pos-p.y))
+			v.append("v_%s.ogg" % unit_str)
 		#end for
 		globalVars.app.wait(1200)
-		if len(found)==0:
-			globalVars.app.say("この場所にはだれも折りませんでした!")
+		if len(v)==0:
+			globalVars.app.playSound("v_nothing.ogg")
 			return
 		#end だれもおりません
-		s="、".join(found).rstrip("、")
-		found_str="%sがおりました!" % s
-		globalVars.app.say(found_str)
+		v[len(v)-1]=v[len(v)-1].replace(".ogg","_last.ogg")
+		globalVars.app.playSoundList(v)
 		return
 
 	def sendUnit(self,p,lane):
