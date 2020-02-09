@@ -35,7 +35,7 @@ class sound():
 	def play(self,pan=0,vol=0,pitch=100):
 		self.handle.looping=False
 		self.handle.play()
-		return self.handle
+		return self
 
 	def setPaused(self,p):
 		if self.paused==p: return
@@ -141,6 +141,8 @@ def playOneShot(sample, pan=0, vol=0, pitch=100):
 	s.volume=vol
 	s.pitch=pitch
 	s.play()
+	return s
+
 #end playOneShot
 oneshots=[None]*100
 

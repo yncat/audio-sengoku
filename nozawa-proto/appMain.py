@@ -60,6 +60,10 @@ class Application(window.SingletonWindow):
 	def playSound(self,key,pan=0,vol=0,pitch=100):
 		self.skin.playOneShot(key,pan,vol,pitch)
 
+	def playSoundList(self,sounds):
+		for elem in sounds:
+			self.skin.playWait(elem)
+
 	def _playOneShot(self,key,pan=0,vol=0,pitch=100,wait=False):
 		s=bgtsound.playOneShot(key,pan,vol,pitch)
 		if wait:

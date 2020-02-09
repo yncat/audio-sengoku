@@ -14,3 +14,6 @@ class SkinManager(object):
 	def playOneShot(self,file_name,pan=0,vol=0,pitch=100):
 		globalVars.app._playOneShot(globalVars.app.sounds["%s/%s" % (self.current_skin,file_name)],pan,vol,pitch)
 
+	def playWait(self,file_name,pan=0,vol=0,pitch=100):
+		globalVars.app._playOneShot(globalVars.app.sounds["%s/%s" % (self.current_skin,file_name)],pan,vol,pitch,wait=True)
+
