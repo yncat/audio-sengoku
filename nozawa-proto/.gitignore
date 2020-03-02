@@ -14,7 +14,6 @@ ss.build/
 ss.dist/
 docs/api
 build/
-dist/
 ss.spec
 *.sfk
 *reapeaks
